@@ -1,0 +1,23 @@
+BetaRoot--main/
+├── betaroot/                      # الحزمة الرئيسية
+│   ├── __init__.py                # ← الملف الذي كتبناه أعلاه
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── unary_logic.py
+│   │   ├── causal_graph.py
+│   │   ├── symbolic_patterns.py
+│   │   ├── explainability_engine.py
+│   │   ├── consistency_checker.py
+│   │   ├── memory.py
+│   │   └── betaroot.py
+│   └── cli.py                     # (سنضيفه إذا أردت)
+├── README.md
+├── README_EN.md
+├── setup.py                       # ← المعدل أعلاه
+├── requirements.txt
+├── LICENSE
+├── ARCHITECTURE.md
+├── PHILOSOPHY.md
+├── CONTRIBUTING.md
+└── tests/                         # سنضيفها لاحقاً
+    └── test_core.py
