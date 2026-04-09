@@ -1,0 +1,51 @@
+# BetaRoot Requirements
+# Core dependencies for the BetaRoot AI Framework
+
+# Mathematical and Scientific Computing
+numpy>=1.24.0              # Numerical computing
+scipy>=1.10.0              # Scientific computing
+sympy>=1.12                # Symbolic mathematics
+
+# Graph and Network Processing
+networkx>=3.0              # Graph algorithms and structures
+
+# Data Validation and Serialization
+pydantic>=2.0              # Data validation using Python type hints
+pydantic-core>=2.0         # Core functionality for pydantic
+
+# Testing Framework
+pytest>=7.0                # Testing framework
+pytest-cov>=4.0            # Coverage reporting for pytest
+hypothesis>=6.70           # Property-based testing
+
+# Code Quality and Linting
+black>=23.0                # Code formatter
+flake8>=6.0                # Code linter
+mypy>=1.0                  # Static type checker
+isort>=5.12                # Import sorter
+
+# Documentation
+sphinx>=6.0                # Documentation generator
+sphinx-rtd-theme>=1.2      # ReadTheDocs theme for Sphinx
+sphinx-autodoc-typehints>=1.22  # Type hints in documentation
+
+# Visualization
+matplotlib>=3.7.0          # Data visualization
+plotly>=5.13               # Interactive plotting
+
+# Utilities
+python-dotenv>=1.0         # Environment variable management
+click>=8.1                 # Command-line interface creation
+tqdm>=4.65                 # Progress bars
+
+# Optional: For Blockchain Integration
+# web3>=6.0                # Ethereum/Web3 interaction (optional)
+# bitcoinlib>=0.6          # Bitcoin library (optional)
+
+# Development dependencies
+ipython>=8.10              # Interactive Python shell
+jupyter>=1.0               # Jupyter notebooks
+notebook>=6.5              # Jupyter notebook server
+
+# Type hints
+typing-extensions>=4.5     # Additional typing support
