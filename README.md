@@ -1,345 +1,345 @@
 # 🌳 BetaRoot AI Framework
 
-> **تحول الذكاء الاصطناعي من الاحتمالات إلى الأساس**
+> **Transform AI from Probabilities to Foundations**
 
 ![Status](https://img.shields.io/badge/Status-Alpha-orange) ![License](https://img.shields.io/badge/License-MIT-green) ![Python](https://img.shields.io/badge/Python-3.11%2B-blue)
 
 ---
 
-## عن المشروع
+## About the Project
 
-**BetaRoot** هو إطار عمل ذكاء اصطناعي مفتوح المصدر يعيد تعريف كيف يجب أن يعمل الذكاء الاصطناعي.
+**BetaRoot** is an open-source AI framework that redefines how artificial intelligence should work.
 
-بدلاً من الاعتماد على الشبكات العصبية العميقة والضغط الإحصائي، يستخدم BetaRoot:
-- **منطق رمزي** يقوم على نظام آحادي صريح (1 فقط، لا 0)
-- **رسوم بيانية سببية** لفهم حقيقي وليس ارتباطات عشوائية
-- **تفسيرية كاملة** لكل قرار يتخذه النظام
-- **ذاكرة دائمة** قائمة على قاعدة معرفة هيكلية
-
----
-
-## 🎯 المشكلة التي نحلها
-
-أنظمة الذكاء الاصطناعي الحالية تعاني من:
-
-| المشكلة | الأثر | الحل في BetaRoot |
-|--------|------|----------------|
-| **لا فهم حقيقي** | ضخط إحصائي فقط | رسم بياني سببي صريح |
-| **Hallucinations** | تختلق معلومات خاطئة | قيود منطقية صارمة |
-| **لا ذاكرة** | نسيان كامل بين الحوارات | قاعدة معرفة persistent |
-| **عدم الشفافية** | "صندوق أسود" | شرح كامل لكل خطوة |
-| **الاعتماد على البيانات** | فشل خارج التدريب | استدلال منطقي نقي |
-| **أخطاء حسابية** | عدم موثوقية النتائج | محقق رسمي للعمليات |
+Instead of relying on deep neural networks and statistical compression, BetaRoot uses:
+- **Symbolic Logic** based on an explicit unary system (1 only, never 0)
+- **Causal Graphs** for true understanding instead of random correlations
+- **Complete Explainability** for every decision the system makes
+- **Persistent Memory** built on a structured knowledge base
 
 ---
 
-## ✨ المميزات الرئيسية
+## 🎯 The Problem We Solve
 
-### 1️⃣ **فهم سببي حقيقي**
+Current AI systems suffer from:
+
+| Problem | Impact | BetaRoot Solution |
+|---------|--------|------------------|
+| **No True Understanding** | Statistical compression only | Explicit causal graphs |
+| **Hallucinations** | Invents false information | Strict logical constraints |
+| **No Memory** | Complete forgetting between conversations | Persistent knowledge base |
+| **Lack of Transparency** | "Black box" | Complete explanation for every step |
+| **Data Dependency** | Fails outside training distribution | Pure logical inference |
+| **Computational Errors** | Unreliable results | Formal verification of operations |
+
+---
+
+## ✨ Core Features
+
+### 1️⃣ **True Causal Understanding**
 ```
-الدخل → تحويل آحادي → أنماط رمزية → استدلال سببي → نتيجة موثوقة
+Input → Unary Conversion → Symbolic Patterns → Causal Inference → Reliable Output
 ```
 
-### 2️⃣ **شفافية 100%**
+### 2️⃣ **100% Transparency**
 ```python
 {
     'result': '...',
-    'reasoning_path': ['الخطوة 1', 'الخطوة 2', '...'],
-    'explanation': 'شرح نصي للمنطق',
+    'reasoning_path': ['Step 1', 'Step 2', '...'],
+    'explanation': 'Full textual explanation of logic',
     'confidence': 1.0
 }
 ```
 
-### 3️⃣ **ذاكرة دائمة**
-- تحديثات معرفة مستمرة
-- الحفاظ على السياق عبر الجلسات
-- تعلم من الأخطاء السابقة
+### 3️⃣ **Persistent Memory**
+- Continuous knowledge updates
+- Context preservation across sessions
+- Learning from past mistakes
 
-### 4️⃣ **لا hallucinations**
-- قيود منطقية صارمة
-- التحقق من الاتساق الفوري
-- رفض المعلومات غير المدعومة
+### 4️⃣ **No Hallucinations**
+- Strict logical constraints
+- Immediate consistency verification
+- Rejection of unsupported claims
 
-### 5️⃣ **دقة رياضية**
-- محقق رسمي للعمليات الحسابية
-- منطق ثابت وموثوق
-- قابل للتحقق رياضياً
+### 5️⃣ **Mathematical Rigor**
+- Formal verification of calculations
+- Constant and reliable logic
+- Mathematically verifiable
 
 ---
 
-## 🚀 البدء السريع
+## 🚀 Quick Start
 
-### المتطلبات
+### Requirements
 - Python 3.11+
-- pip أو conda
+- pip or conda
 
-### التثبيت
+### Installation
 
 ```bash
-# استنساخ المستودع
+# Clone the repository
 git clone https://github.com/betaroot/betaroot-ai.git
 cd betaroot-ai
 
-# إنشاء بيئة افتراضية
+# Create a virtual environment
 python -m venv venv
-source venv/bin/activate  # على Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# تثبيت المتطلبات
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### الاستخدام الأساسي
+### Basic Usage
 
 ```python
 from betaroot import BetaRoot
 
-# إنشاء نسخة من BetaRoot
+# Create an instance of BetaRoot
 br = BetaRoot()
 
-# معالجة سؤال بسيط
-result = br.process("ما الذي يجعل شيئاً ما صحيحاً؟")
+# Process a simple question
+result = br.process("What makes something true?")
 
-# الحصول على النتيجة والشرح
-print(f"النتيجة: {result['result']}")
-print(f"المنطق: {result['reasoning_path']}")
-print(f"الثقة: {result['confidence']}")
+# Get the result and explanation
+print(f"Result: {result['result']}")
+print(f"Reasoning: {result['reasoning_path']}")
+print(f"Confidence: {result['confidence']}")
 ```
 
 ---
 
-## 📚 الأمثلة
+## 📚 Examples
 
-### مثال 1: الاستدلال المنطقي
+### Example 1: Logical Inference
 
 ```python
 from betaroot import BetaRoot
 
 br = BetaRoot()
 
-# إضافة حقائق
-br.knowledge_base.add_fact("كل البشر فانون")
-br.knowledge_base.add_fact("سقراط بشر")
+# Add facts
+br.knowledge_base.add_fact("All humans are mortal")
+br.knowledge_base.add_fact("Socrates is human")
 
-# الاستدلال
-result = br.process("هل سقراط فان؟")
-# النتيجة: نعم، لأن سقراط بشر وكل البشر فانون
+# Perform inference
+result = br.process("Is Socrates mortal?")
+# Result: Yes, because Socrates is human and all humans are mortal
 ```
 
-### مثال 2: تحليل سببي
+### Example 2: Causal Analysis
 
 ```python
 from betaroot.core import CausalGraphBuilder
 
-# بناء رسم بياني سببي
+# Build a causal graph
 graph = CausalGraphBuilder()
-graph.add_relation("المطر", "يسبب", "الأرض_مبللة")
-graph.add_relation("الأرض_مبللة", "يسبب", "الانزلاقات")
+graph.add_relation("Rain", "causes", "Wet_Ground")
+graph.add_relation("Wet_Ground", "causes", "Landslides")
 
-# تحليل السلسلة السببية
-causality = graph.trace_causality("المطر", "الانزلاقات")
-print(f"السبب: {causality['path']}")  # المطر → الأرض المبللة → الانزلاقات
+# Analyze the causal chain
+causality = graph.trace_causality("Rain", "Landslides")
+print(f"Cause: {causality['path']}")  # Rain → Wet Ground → Landslides
 ```
 
-### مثال 3: إدارة الذاكرة
+### Example 3: Memory Management
 
 ```python
 from betaroot.memory import KnowledgeBase
 
 kb = KnowledgeBase()
 
-# تخزين المعلومات
-kb.store("المستخدم_الحالي", "أحمد")
-kb.store("الهدف_الحالي", "فهم BetaRoot")
+# Store information
+kb.store("current_user", "Ahmed")
+kb.store("current_goal", "Understand BetaRoot")
 
-# استرجاع المعلومات لاحقاً
-user = kb.retrieve("المستخدم_الحالي")
-goal = kb.retrieve("الهدف_الحالي")
+# Retrieve information later
+user = kb.retrieve("current_user")
+goal = kb.retrieve("current_goal")
 ```
 
 ---
 
-## 🏗️ العمارة
+## 🏗️ Architecture
 
 ```
 BetaRoot
-├── Core Engine (محرك النواة)
-│   ├── Unary Logic (المنطق الآحادي)
-│   ├── Symbolic Patterns (158+ أنماط رمزية)
-│   └── Causal Inference (الاستدلال السببي)
+├── Core Engine
+│   ├── Unary Logic
+│   ├── Symbolic Patterns (158+ combinations)
+│   └── Causal Inference
 │
-├── Diagnostic Layer (طبقة التشخيص)
-│   ├── Explainability (التفسيرية)
-│   ├── Consistency Checker (فحص الاتساق)
-│   └── Pattern Analyzer (محلل الأنماط)
+├── Diagnostic Layer
+│   ├── Explainability
+│   ├── Consistency Checker
+│   └── Pattern Analyzer
 │
-├── Memory System (نظام الذاكرة)
-│   ├── Knowledge Base (قاعدة المعرفة)
-│   ├── Semantic Storage (التخزين الدلالي)
-│   └── Context Manager (مدير السياق)
+├── Memory System
+│   ├── Knowledge Base
+│   ├── Semantic Storage
+│   └── Context Manager
 │
-└── Application Layer (طبقة التطبيق)
-    ├── Reasoning Engine (محرك الاستدلال)
-    ├── NLP Module (معالج اللغة الطبيعية)
-    └── Blockchain Integration (تكامل البلوكتشين)
+└── Application Layer
+    ├── Reasoning Engine
+    ├── NLP Module
+    └── Blockchain Integration
 ```
 
 ---
 
-## 📖 الدليل المفصل
+## 📖 Detailed Documentation
 
-- [**العمارة التفصيلية**](docs/ARCHITECTURE.md) - شرح كامل للنظام
-- [**الفلسفة الأساسية**](docs/PHILOSOPHY.md) - الأفكار والمبادئ
-- [**مرجع API**](docs/API_REFERENCE.md) - توثيق كامل للدوال
-- [**دليل التثبيت**](docs/INSTALLATION.md) - خطوات التثبيت المفصلة
-- [**أمثلة متقدمة**](examples/) - حالات استخدام معقدة
-
----
-
-## 🗺️ خارطة الطريق
-
-### المرحلة 1: الأساس (Q1-Q2 2026)
-- [x] تصميم العمارة الأساسية
-- [ ] محرك المنطق الآحادي
-- [ ] تطبيق 158 مجموعة رمزية
-- [ ] اختبارات الوحدة الشاملة
-
-### المرحلة 2: التشخيص (Q2-Q3 2026)
-- [ ] محرك التفسيرية
-- [ ] فاحص الاتساق
-- [ ] لوحة التحليل البصرية
-
-### المرحلة 3: الذاكرة (Q3 2026)
-- [ ] قاعدة المعرفة الدائمة
-- [ ] نظام إدارة السياق
-- [ ] آليات التحديث الذاتي
-
-### المرحلة 4: التطبيقات (Q4 2026)
-- [ ] محرك الاستدلال العام
-- [ ] معالج اللغة الطبيعية
-- [ ] تكامل Blockchain/DIFE
-
-### المرحلة 5: التحقق (2027 وما بعده)
-- [ ] الاختبارات التجريبية
-- [ ] المقارنة مع الأنظمة الأخرى
-- [ ] دراسات الحالة الحقيقية
+- [**Detailed Architecture**](docs/ARCHITECTURE.md) - Complete system explanation
+- [**Core Philosophy**](docs/PHILOSOPHY.md) - Foundational ideas and principles
+- [**API Reference**](docs/API_REFERENCE.md) - Complete function documentation
+- [**Installation Guide**](docs/INSTALLATION.md) - Detailed setup steps
+- [**Advanced Examples**](examples/) - Complex use cases
 
 ---
 
-## 🤝 المساهمة
+## 🗺️ Roadmap
 
-نرحب بمساهماتك! اتبع هذه الخطوات:
+### Phase 1: Foundation (Q1-Q2 2026)
+- [x] Architecture design
+- [ ] Unary logic engine
+- [ ] Implement 158 symbolic combinations
+- [ ] Comprehensive unit tests
 
-1. **انسخ المستودع**
+### Phase 2: Diagnostics (Q2-Q3 2026)
+- [ ] Explainability engine
+- [ ] Consistency checker
+- [ ] Visual analysis dashboard
+
+### Phase 3: Memory (Q3 2026)
+- [ ] Persistent knowledge base
+- [ ] Context management system
+- [ ] Self-updating mechanisms
+
+### Phase 4: Applications (Q4 2026)
+- [ ] General reasoning engine
+- [ ] Natural language processor
+- [ ] Blockchain/DIFE integration
+
+### Phase 5: Validation (2027 onwards)
+- [ ] Empirical testing
+- [ ] Comparison with other systems
+- [ ] Real-world case studies
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Follow these steps:
+
+1. **Fork the Repository**
    ```bash
    git clone https://github.com/betaroot/betaroot-ai.git
    cd betaroot-ai
    ```
 
-2. **أنشئ فرعاً جديداً**
+2. **Create a New Branch**
    ```bash
-   git checkout -b feature/اسم-الميزة
+   git checkout -b feature/feature-name
    ```
 
-3. **اكتب الكود وأضف الاختبارات**
+3. **Write Code and Tests**
    ```bash
    pytest tests/
    ```
 
-4. **أرسل طلب دمج (Pull Request)**
+4. **Submit a Pull Request**
    ```bash
-   git push origin feature/اسم-الميزة
+   git push origin feature/feature-name
    ```
 
-**معايير المساهمة:**
-- ✅ كود نظيف ومُوثق
-- ✅ اختبارات لكل ميزة جديدة
-- ✅ تعليقات توضيحية بالعربية والإنجليزية
-- ✅ مراعاة معايير PEP 8
+**Contribution Standards:**
+- ✅ Clean, documented code
+- ✅ Tests for every new feature
+- ✅ Clear comments (English and Arabic)
+- ✅ PEP 8 compliance
 
-اطلع على [CONTRIBUTING.md](CONTRIBUTING.md) للتفاصيل الكاملة.
-
----
-
-## 📋 المتطلبات
-
-```
-numpy>=1.24.0           # العمليات الرياضية
-networkx>=3.0           # الرسوم البيانية
-pydantic>=2.0           # التحقق من البيانات
-pytest>=7.0             # الاختبارات
-matplotlib>=3.7.0       # الرسوم البيانية
-sympy>=1.12             # العمليات الرمزية
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
 
 ---
 
-## 💡 الحالات الاستخدام
+## 📋 Requirements
 
-### 1. التحليل المنطقي
 ```
-الدخل: أسئلة معقدة
-الخرج: استدلالات منطقية موثوقة
-```
-
-### 2. تحليل البيانات السببي
-```
-الدخل: مجموعات البيانات
-الخرج: العلاقات السببية الحقيقية
-```
-
-### 3. الأنظمة الموثوقة
-```
-الدخل: عمليات حساسة
-الخرج: نتائج موثقة وقابلة للتحقق
-```
-
-### 4. التكامل مع Blockchain
-```
-الدخل: معاملات البلوكتشين
-الخرج: تحليل ذكي وآمن (DIFE)
+numpy>=1.24.0           # Mathematical operations
+networkx>=3.0           # Graph structures
+pydantic>=2.0           # Data validation
+pytest>=7.0             # Testing framework
+matplotlib>=3.7.0       # Data visualization
+sympy>=1.12             # Symbolic operations
 ```
 
 ---
 
-## 📊 الأداء
+## 💡 Use Cases
 
-| المعيار | BetaRoot | ChatGPT | Gemini |
+### 1. Logical Analysis
+```
+Input: Complex questions
+Output: Reliable logical inferences
+```
+
+### 2. Causal Data Analysis
+```
+Input: Data sets
+Output: True causal relationships
+```
+
+### 3. Reliable Systems
+```
+Input: Sensitive operations
+Output: Documented and verifiable results
+```
+
+### 4. Blockchain Integration
+```
+Input: Blockchain transactions
+Output: Intelligent and secure analysis (DIFE)
+```
+
+---
+
+## 📊 Performance
+
+| Metric | BetaRoot | ChatGPT | Gemini |
 |--------|----------|---------|--------|
-| الشفافية | 100% | ~20% | ~25% |
-| دقة الحسابات | 100% | ~85% | ~87% |
-| عدم الهلوسة | 0% | ~15% | ~12% |
-| الذاكرة الدائمة | ✅ | ❌ | ❌ |
-| الاستدلال المنطقي | 100% | ~60% | ~65% |
+| Transparency | 100% | ~20% | ~25% |
+| Calculation Accuracy | 100% | ~85% | ~87% |
+| Hallucination Rate | 0% | ~15% | ~12% |
+| Persistent Memory | ✅ | ❌ | ❌ |
+| Logical Reasoning | 100% | ~60% | ~65% |
 
-*ملاحظة: البيانات أولية وتحت التطوير*
-
----
-
-## 📚 المراجع والموارد
-
-- [الفلسفة الآحادية في الحوسبة](docs/PHILOSOPHY.md)
-- [One Solution Framework الأصلي](docs/ONE_SOLUTION.md)
-- [الأبحاث ذات الصلة](docs/RESEARCH.md)
-- [المقالات والدراسات](docs/PAPERS.md)
+*Note: Data is preliminary and under development*
 
 ---
 
-## 📞 التواصل والدعم
+## 📚 References and Resources
 
-### الأسئلة والنقاش
+- [Unary Philosophy in Computing](docs/PHILOSOPHY.md)
+- [Original One Solution Framework](docs/ONE_SOLUTION.md)
+- [Related Research](docs/RESEARCH.md)
+- [Academic Papers](docs/PAPERS.md)
+
+---
+
+## 📞 Contact and Support
+
+### Questions and Discussion
 - **Issues**: [GitHub Issues](https://github.com/betaroot/betaroot-ai/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/betaroot/betaroot-ai/discussions)
 
-### التواصل المباشر
-- **البريد الإلكتروني**: contact@betaroot.dev
-- **Discord**: [انضم إلى السيرفر](https://discord.gg/betaroot)
+### Direct Contact
+- **Email**: contact@betaroot.dev
+- **Discord**: [Join Server](https://discord.gg/betaroot)
 - **Twitter**: [@BetaRootAI](https://twitter.com/betarootai)
 
 ---
 
-## 📄 الترخيص
+## 📄 License
 
-هذا المشروع مرخص تحت **MIT License** - اطلع على ملف [LICENSE](LICENSE) للتفاصيل.
+This project is licensed under the **MIT License** - see [LICENSE](LICENSE) file for details.
 
 ```
 MIT License
@@ -353,26 +353,26 @@ in the Software without restriction...
 
 ---
 
-## 🙏 شكر وتقدير
+## 🙏 Acknowledgments
 
-شكر خاص لـ:
-- جميع المساهمين والمختبرين
-- مجتمع البحث العلمي المفتوح
-- الراعين والمؤيدين
-
----
-
-## ⭐ دعم المشروع
-
-إذا أعجبك المشروع، فضلاً:
-- ⭐ **أعطه نجمة** على GitHub
-- 🔄 **شاركه** مع الآخرين
-- 🐛 **ساهم** بتقارير الأخطاء
-- 💡 **اقترح** ميزات جديدة
+Special thanks to:
+- All contributors and testers
+- The open research community
+- Sponsors and supporters
 
 ---
 
-## 📈 إحصائيات المشروع
+## ⭐ Support the Project
+
+If you like the project, please:
+- ⭐ **Give it a star** on GitHub
+- 🔄 **Share it** with others
+- 🐛 **Report bugs**
+- 💡 **Suggest features**
+
+---
+
+## 📈 Project Statistics
 
 ```
 Repository Status: Active Development
@@ -385,39 +385,136 @@ Last Updated: 2026-04-09
 
 ---
 
-## 🎓 التعلم والموارد
+## 🎓 Learning and Resources
 
-### للمبتدئين
-- [دليل البدء السريع](docs/QUICK_START.md)
-- [أمثلة بسيطة](examples/basic/)
+### For Beginners
+- [Quick Start Guide](docs/QUICK_START.md)
+- [Simple Examples](examples/basic/)
 
-### للمتقدمين
-- [العمارة المتقدمة](docs/ADVANCED_ARCHITECTURE.md)
-- [تطوير الملحقات](docs/EXTENSION_GUIDE.md)
+### For Advanced Users
+- [Advanced Architecture](docs/ADVANCED_ARCHITECTURE.md)
+- [Extension Development](docs/EXTENSION_GUIDE.md)
 
-### للباحثين
-- [الأوراق البحثية](docs/RESEARCH.md)
-- [النتائج التجريبية](experiments/results/)
+### For Researchers
+- [Research Papers](docs/RESEARCH.md)
+- [Experimental Results](experiments/results/)
 
 ---
 
-## ⚖️ الأخلاقيات والمسؤولية
+## ⚖️ Ethics and Responsibility
 
-BetaRoot تم تصميمه مع مراعاة:
-- ✅ الشفافية الكاملة
-- ✅ الموثوقية العالية
-- ✅ عدم الإيذاء
-- ✅ الخصوصية وحماية البيانات
-- ✅ الاستخدام الأخلاقي
+BetaRoot was designed with consideration for:
+- ✅ Complete transparency
+- ✅ High reliability
+- ✅ Harm prevention
+- ✅ Privacy and data protection
+- ✅ Ethical use
 
-اطلع على [كود السلوك](CODE_OF_CONDUCT.md)
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+
+---
+
+## 🔬 Technical Stack
+
+- **Language**: Python 3.11+
+- **Logic Engine**: Custom unary logic implementation
+- **Graph Processing**: NetworkX
+- **Data Validation**: Pydantic
+- **Testing**: Pytest
+- **Symbolic Math**: SymPy
+- **Visualization**: Matplotlib
+
+---
+
+## 🌐 Internationalization
+
+BetaRoot supports:
+- 🇬🇧 English (Primary)
+- 🇸🇦 العربية (Arabic)
+- 🇫🇷 Français (Coming soon)
+- 🇪🇸 Español (Coming soon)
+
+Help us translate! See [i18n Guide](docs/i18n.md)
+
+---
+
+## 🔐 Security
+
+- No external API calls by default
+- Sandboxed execution environment
+- Input validation and sanitization
+- Regular security audits
+
+Report security issues privately to: security@betaroot.dev
+
+---
+
+## 💻 Development Setup
+
+```bash
+# Clone and setup
+git clone https://github.com/betaroot/betaroot-ai.git
+cd betaroot-ai
+
+# Create environment
+python -m venv venv
+source venv/bin/activate
+
+# Install dev dependencies
+pip install -r requirements-dev.txt
+
+# Run tests
+pytest tests/ -v
+
+# Run linting
+black . && flake8 . && mypy .
+
+# Build documentation
+cd docs && make html
+```
+
+---
+
+## 📝 Changelog
+
+### v0.1.0 (Alpha - Current)
+- Core framework structure
+- Unary logic engine implementation
+- Basic knowledge base
+- Symbolic pattern system
+
+### v0.2.0 (Planned)
+- Explainability engine
+- Consistency checker
+- Memory persistence
+
+### v1.0.0 (Target: Q4 2026)
+- Full feature parity
+- Production-ready
+- Comprehensive documentation
+
+See [CHANGELOG.md](CHANGELOG.md) for full history.
+
+---
+
+## 🎯 Vision Statement
+
+**BetaRoot aims to create an AI system that:**
+
+1. **Understands** - Not just pattern matches
+2. **Explains** - Every decision transparently
+3. **Remembers** - Persistently across sessions
+4. **Reasons** - Using formal logic
+5. **Trusts** - 100% verifiable and reliable
 
 ---
 
 <div align="center">
 
-### 🌟 صُنع بـ ❤️ لأجل ذكاء اصطناعي أفضل
+### 🌟 Built with ❤️ for a Better AI Future
 
-**BetaRoot - من الاحتمالات إلى الحقيقة**
+**BetaRoot - From Probabilities to Truth**
+
+[⬆ Back to Top](#-betaroot-ai-framework)
 
 </div>
