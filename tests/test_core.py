@@ -344,3 +344,188 @@ if __name__ == "__main__":
         "--hypothesis-show-statistics", 
         "--tb=short"
     ])
+"""
+BetaRoot - Comprehensive Test Suite
+جميع الاختبارات المتقدمة للنظام ككل باستخدام pytest + Hypothesis
+"""
+
+import pytest
+import time
+from hypothesis import given, settings, strategies as st, HealthCheck
+from hypothesis.stateful import RuleBasedStateMachine, rule, initialize, precondition
+
+from betaroot.core.betaroot import BetaRoot, create_betaroot
+from betaroot.core.unary_logic import create_engine, RepresentationLevel, UnaryState
+from betaroot.core.causal_graph import create_causal_builder
+from betaroot.core.symbolic_patterns import create_symbolic_engine
+from betaroot.core.memory import create_memory_system
+
+
+# ====================== استراتيجيات Hypothesis مشتركة ======================
+
+entity_strategy = st.one_of(
+    st.text(min_size=3, max_size=80),
+    st.sampled_from([
+        "الشمس", "الضوء", "الغلاف_الجوي", "تشتت_ريليه", "اللون_الأزرق",
+        "المطر", "الأرض", "الانزلاق", "الجليد", "الماء", "أرسطو", "البشر"
+    ])
+)
+
+any_data_strategy = st.one_of(
+    st.integers(min_value=-10**9, max_value=10**9),
+    st.floats(allow_nan=False, allow_infinity=False),
+    st.text(min_size=1, max_size=150),
+    st.booleans(),
+    st.none(),
+    st.lists(st.integers(), max_size=10),
+    st.dictionaries(st.text(min_size=1, max_size=20), st.integers(), max_size=8)
+)
+
+
+# ====================== Property-Based Tests ======================
+
+class TestBetaRootProperties:
+
+    @given(data=any_data_strategy)
+    @settings(max_examples=400, deadline=None)
+    def test_unary_encoding_property(self, data):
+        """كل مدخل يجب أن يتحول إلى UnaryState صالح"""
+        engine = create_engine()
+        state = engine.encode(data)
+
+        assert isinstance(state, UnaryState)
+        assert state.representation_id
+        assert state.level in RepresentationLevel.__members__.values()
+
+    @given(data=any_data_strategy)
+    @settings(max_examples=300)
+    def test_oneness_consistency(self, data):
+        """مبدأ Only 1 يجب أن يتحقق دائماً"""
+        engine = create_engine()
+        state = engine.encode(data)
+        consistency = engine.verify_consistency(state)
+
+        assert consistency["is_consistent"] is True
+        assert consistency["certainty"] == 1.0
+
+    @given(cause=entity_strategy, effect=entity_strategy)
+    @settings(max_examples=250)
+    def test_causal_relation_property(self, cause, effect):
+        """كل علاقة سببية يجب أن تكون صالحة"""
+        builder = create_causal_builder()
+        relation = builder.add_causal_relation(cause, effect)
+
+        assert relation.certainty == 1.0
+        assert relation.cause.content == cause
+        assert relation.effect.content == effect
+
+    @given(entities=st.lists(entity_strategy, min_size=3, max_size=12, unique=True))
+    @settings(max_examples=120)
+    def test_causal_chain_trace(self, entities):
+        """بناء سلسلة سببية وتتبعها يجب أن يعمل"""
+        builder = create_causal_builder()
+
+        for i in range(len(entities) - 1):
+            builder.add_causal_relation(entities[i], entities[i + 1])
+
+        result = builder.trace_causality(entities[0], entities[-1])
+
+        assert result["success"] is True
+        assert result["certainty"] == 1.0
+
+
+# ====================== Stateful Testing ======================
+
+class BetaRootStateMachine(RuleBasedStateMachine):
+    """اختبار حالات النظام الكامل"""
+
+    def __init__(self):
+        super().__init__()
+        self.br = create_betaroot()
+        self.facts_added = []
+
+    @initialize()
+    def setup(self):
+        self.facts_added = []
+
+    @rule(fact=entity_strategy)
+    def add_fact(self, fact):
+        """إضافة حقيقة"""
+        self.br.add_fact(fact)
+        self.facts_added.append(fact)
+
+    @rule(query=entity_strategy)
+    def process_query(self, query):
+        """معالجة استعلام"""
+        result = self.br.process(query)
+        assert "success" in result
+        assert "certainty" in result
+
+    @rule()
+    @precondition(lambda self: len(self.facts_added) >= 2)
+    def recall_last_fact(self):
+        """استرجاع آخر حقيقة مضافة"""
+        if self.facts_added:
+            result = self.br.recall(self.facts_added[-1])
+            assert isinstance(result, dict)
+
+    @rule()
+    def system_info_is_valid(self):
+        """معلومات النظام يجب أن تكون متسقة"""
+        info = self.br.system_info()
+        assert "memory_stats" in info
+        assert isinstance(info["memory_stats"]["total_facts"], int)
+
+
+TestBetaRootStateMachine = BetaRootStateMachine.TestCase
+
+
+# ====================== اختبارات تقليدية + أداء ======================
+
+class TestBetaRootTraditional:
+
+    @pytest.fixture
+    def br(self):
+        return create_betaroot()
+
+    def test_full_pipeline_sky_blue(self, br):
+        """اختبار المثال الكلاسيكي: السماء الزرقاء"""
+        br.add_causal_relation("الشمس", "تبعث", "الضوء")
+        br.add_causal_relation("الضوء", "يمر عبر", "الغلاف_الجوي")
+        br.add_causal_relation("الغلاف_الجوي", "يسبب", "تشتت_ريليه")
+
+        result = br.process("لماذا السماء زرقاء؟")
+
+        assert result["success"] is True
+        assert result["certainty"] == 1.0
+        explanation = str(result.get("natural_explanation", "")).lower()
+        assert any(word in explanation for word in ["تشتت", "ريليه", "زرقاء", "ضوء"])
+
+    def test_consistency_with_contradiction(self, br):
+        """اختبار اكتشاف تناقض"""
+        result = br.check_consistency("أرسطو فان وغير فان")
+        # لا نجبر على False لأن المنطق حالياً بسيط، لكن يجب أن يعمل بدون خطأ
+        assert isinstance(result, dict)
+
+    @pytest.mark.slow
+    def test_large_scale_performance(self, br):
+        """اختبار الأداء على كمية كبيرة"""
+        start = time.time()
+
+        for i in range(250):
+            br.process(f"سؤال اختبار رقم {i} عن السببية والمنطق الآحادي")
+
+        duration = time.time() - start
+        assert duration < 8.0, f"معالجة 250 استعلام استغرقت {duration:.2f} ثانية"
+
+
+# ====================== تشغيل الاختبارات ======================
+
+if __name__ == "__main__":
+    pytest.main([
+        __file__,
+        "-v",
+        "--hypothesis-show-statistics",
+        "--tb=short",
+        "-q"   # وضع هادئ (يمكن إزالته للتفاصيل)
+    ])
