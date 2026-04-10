@@ -132,3 +132,56 @@ class BetaRoot:
 
 def create_betaroot():
     return BetaRoot()
+
+from nlp_parser import BetaRootParser
+from memory_store import MemoryStore
+from inference_engine import InferenceEngine
+
+
+class BetaRoot:
+    def __init__(self):
+        self.parser = BetaRootParser()
+        self.memory = MemoryStore()
+        self.inference = InferenceEngine(self.memory)
+
+    def process(self, text):
+        parsed = self.parser.parse(text)
+
+        # قاعدة عامة
+        if parsed.input_type == "rule":
+            self.memory.add_rule(
+                parsed.subject,
+                parsed.object
+            )
+
+            return {
+                "success": True,
+                "type": "rule",
+                "answer": "تم حفظ القاعدة."
+            }
+
+        # حقيقة
+        elif parsed.input_type == "fact":
+            self.memory.add_fact(
+                parsed.subject,
+                parsed.predicate,
+                parsed.object
+            )
+
+            return {
+                "success": True,
+                "type": "fact",
+                "answer": "تم حفظ الحقيقة."
+            }
+
+        # سؤال
+        elif parsed.input_type == "query":
+            return self.inference.answer_query(
+                parsed.subject,
+                parsed.object
+            )
+
+        return {
+            "success": False,
+            "answer": "لم أفهم الطلب."
+        }
