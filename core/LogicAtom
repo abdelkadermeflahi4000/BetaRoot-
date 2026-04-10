@@ -1,0 +1,26 @@
+import scipy.stats as stats
+
+class LogicAtom:
+    def __init__(self, label):
+        self.label = label
+        # البداية من الجهل التام: alpha=1, beta=1 (توزيع موحد)
+        self.a = 1 
+        self.b = 1
+
+    def update(self, evidence_strength, is_consistent_with_logic):
+        """
+        دمج المنهج العلمي:
+        evidence_strength: قوة الدليل (من 0 إلى 1)
+        is_consistent_with_logic: هل يتوافق الدليل مع القواعد المنطقية؟
+        """
+        if is_consistent_with_logic:
+            # تحديث بيزي: تقوية الفرضية
+            self.a += evidence_strength
+        else:
+            # تحديث بيزي: إضعاف الفرضية (التفنيد)
+            self.b += evidence_strength
+
+    @property
+    def certainty_score(self):
+        # القيمة المتوقعة (Expected Value) في توزيع بيتا
+        return self.a / (self.a + self.b)
