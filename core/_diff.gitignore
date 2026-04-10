@@ -3,32 +3,44 @@
 
 +++ .gitignore (修改后)
 ```
-# Compiled Python files
-*.pyc
+# Python
 __pycache__/
-
-# Dependencies
-.venv/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
 venv/
+.venv/
 .env
 .env.local
+*.env.*
 
 # Logs
 *.log
 
-# Editors
-.vscode/
-.idea/
-
-# Coverage reports
+# Coverage
+.coverage
 coverage/
 htmlcov/
-.coverage
 
-# Python specific
-*.pyo
-*.pyd
-.Python
-*.so
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+build/
+dist/
 *.egg-info/
+
+# Testing
+.pytest_cache/
+.mypy_cache/
 ```
