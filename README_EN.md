@@ -518,3 +518,18 @@ See [CHANGELOG.md](CHANGELOG.md) for full history.
 [⬆ Back to Top](#-betaroot-ai-framework)
 
 </div>
+
+# 🧬 BetaRoot: The Unified Mathematical Vessel
+
+**BetaRoot** is a framework designed to bridge the gap between **Formal Logic**, **Bayesian Inference**, and the **Scientific Method**. 
+
+### 🧠 The Core Philosophy
+Unlike traditional AI that relies on black-box heuristics, BetaRoot operates within a **Probability Space** where:
+- **Deduction** is the deterministic limit ($P=1$).
+- **Induction** is the recursive update of beliefs via Bayesian Theory.
+- **Science** is the algorithmic resolution of logical contradictions.
+
+### 🏗️ Architecture
+- `core/logic.py`: Handles deterministic constraints (The "Axioms").
+- `core/prob_engine.py`: Manages uncertainty using Beta Distributions (The "Beliefs").
+- `core/scientific_method.py`: Synchronizes theory with empirical data (The "Discovery").
