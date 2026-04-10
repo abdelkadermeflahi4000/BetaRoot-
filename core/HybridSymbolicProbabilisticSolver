@@ -1,0 +1,77 @@
+class EnhancedHybridSolver:
+    """
+    محرك استدلال معزز يدمج:
+    - السلسلة الأمامية والخلفية
+    - المنطق غير الرتيب (مراجعة المعتقدات)
+    - الاستدلال البيزي
+    """
+    
+    def __init__(self, causal_graph: nx.DiGraph):
+        self.graph = causal_graph
+        self.knowledge_base = KnowledgeBase(causal_graph)
+        self.fact_base = FactBase()
+        self.bayesian_engine = BayesianEngine(causal_graph)
+        
+    def forward_chain(self, new_fact: Dict) -> List[Inference]:
+        """
+        السلسلة الأمامية: من الحقائق الجديدة → استنتاجات
+        """
+        self.fact_base.add(new_fact)
+        inferences = []
+        
+        # ابحث عن كل القواعد التي يمكن تطبيقها
+        for rule in self.knowledge_base.rules:
+            if rule.antecedent_satisfied(self.fact_base):
+                conclusion = rule.apply()
+                inferences.append(conclusion)
+                self.fact_base.add(conclusion)
+                
+        return inferences
+    
+    def backward_chain(self, hypothesis: str) -> ProofTree:
+        """
+        السلسلة الخلفية: من الفرضية → البحث عن أدلة
+        """
+        proof_tree = ProofTree(hypothesis)
+        
+        # ابحث عن القواعد التي تنتج هذه الفرضية
+        for rule in self.knowledge_base.rules:
+            if rule.conclusion == hypothesis:
+                # تحقق من المقدمات بشكل عودي
+                sub_goals = rule.antecedents
+                for goal in sub_goals:
+                    if goal in self.fact_base:
+                        proof_tree.add_support(goal, self.fact_base[goal])
+                    else:
+                        # استدلال بيزي كحل أخير
+                        prob = self.bayesian_engine.query([goal], self.fact_base.observations)
+                        proof_tree.add_probabilistic_support(goal, prob)
+                        
+        return proof_tree
+    
+    def non_monotonic_update(self, new_evidence: Dict) -> BeliefRevision:
+        """
+        تحديث غير رتيب: مراجعة المعتقدات عند تضارب الأدلة
+        """
+        revision = BeliefRevision()
+        
+        # تحقق من التضاربات
+        for var, value in new_evidence.items():
+            if var in self.fact_base.observations:
+                old_value = self.fact_base.observations[var]
+                if old_value != value:
+                    # تضارب! قم بالمراجعة
+                    revision.add_conflict(var, old_value, value)
+                    
+                    # استخدم بايز لتحديث كل المعتقدات المتأثرة
+                    affected = self._find_affected_beliefs(var)
+                    for belief in affected:
+                        updated_prob = self.bayesian_engine.query(
+                            [belief], 
+                            {**self.fact_base.observations, **new_evidence}
+                        )
+                        revision.update_belief(belief, updated_prob)
+                        
+        # طبق التحديثات
+        self.fact_base.update(new_evidence)
+        return revision
