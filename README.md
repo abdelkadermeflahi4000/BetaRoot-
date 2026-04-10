@@ -330,11 +330,6 @@ sympy>=1.12             # العمليات الرمزية
 - **Issues**: [GitHub Issues](https://github.com/betaroot/betaroot-ai/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/betaroot/betaroot-ai/discussions)
 
-### التواصل المباشر
-- **البريد الإلكتروني**: contact@betaroot.dev
-- **Discord**: [انضم إلى السيرفر](https://discord.gg/betaroot)
-- **Twitter**: [@BetaRootAI](https://twitter.com/betarootai)
-
 ---
 
 ## 📄 الترخيص
