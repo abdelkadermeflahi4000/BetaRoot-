@@ -1,0 +1,104 @@
+from typing import Dict, Any, List
+from datetime import datetime
+
+class ExplanationGenerator:
+    """
+    مولد شرح تلقائي ذكي
+    يعرض: النتيجة، شجرة الإثبات، سجل التغييرات، وتفسيرًا مبسطًا بالعربية.
+    """
+    
+    @staticmethod
+    def generate(hypothesis: str, result: Dict[str, Any], fb: 'FactBase', kb: 'KnowledgeBase', max_tree_depth: int = 5) -> str:
+        lines = [
+            "📊 تقرير الاستدلال التلقائي",
+            "=" * 50,
+            f"🎯 الفرضية المستهدفة: {hypothesis}",
+            f"✅ النتيجة النهائية: {result['result']}",
+            f"📈 درجة اليقين: {result['confidence']:.2%}",
+            f"🛠️ منهجية الاستدلال: {result['method']}",
+            "=" * 50
+        ]
+        
+        # 🌳 1. شجرة الإثبات
+        lines.append("🌳 شجرة الإثبات والاستدلال:")
+        trace = result.get('trace')
+        if hasattr(trace, 'variable'):  # ProofNode object
+            lines.append(ExplanationGenerator._format_proof_tree(trace, depth=0, max_depth=max_tree_depth))
+        elif isinstance(trace, dict):   # Bayesian probability dict
+            lines.append("   (تم الاستدلال عبر الشبكة البيزية - التوزيع الاحتمالي:)")
+            for k, v in sorted(trace.items(), key=lambda x: x[1], reverse=True):
+                lines.append(f"   • {k}: {v:.4f}")
+        else:
+            lines.append("   ⚠️ لا تتوفر شجرة إثبات تفصيلية لهذه الطريقة.")
+            
+        # 📜 2. سجل التغييرات والأدلة
+        lines.append("-" * 50)
+        lines.append("📜 سجل الأدلة والتغييرات المؤثرة:")
+        history = fb.get_history(limit=20)
+        if not history:
+            lines.append("   لا توجد تغييرات مسجلة في هذه الجلسة.")
+        else:
+            # عرض الأحدث أولاً
+            for entry in reversed(history):
+                time_str = entry.timestamp.strftime("%H:%M:%S")
+                action_map = {"add": "➕", "update": "🔄", "flag": "⚠️", "remove": "❌"}
+                emoji = action_map.get(entry.action, "•")
+                old_val = entry.old_fact.value if entry.old_fact else "غير مُعرّف"
+                new_val = entry.new_fact.value if entry.new_fact else "غير مُعرّف"
+                source = entry.new_fact.source if entry.new_fact else (entry.old_fact.source if entry.old_fact else "system")
+                lines.append(f"   {emoji} [{time_str}] {entry.variable}: {old_val} → {new_val} (المصدر: {source})")
+                
+        # 💡 3. تفسير مبسط ذكي (NLG)
+        lines.append("-" * 50)
+        lines.append("💡 التفسير المبسط:")
+        lines.append(ExplanationGenerator._generate_nl_summary(hypothesis, result))
+        
+        return "\n".join(lines)
+    
+    @staticmethod
+    def _format_proof_tree(node, depth: int = 0, max_depth: int = 5) -> str:
+        if depth > max_depth:
+            return "  " * depth + "🔻 ... (تم اقتطاع الشجرة للعمق المحدد)"
+            
+        prefix = "  " * depth
+        status_emoji = {ProofStatus.PROVEN: "✅", ProofStatus.DISPROVEN: "❌", ProofStatus.UNKNOWN: "❓"}
+        emoji = status_emoji.get(node.status, "•")
+        rule_tag = f" ← {node.rule_used}" if node.rule_used else ""
+        
+        line = f"{prefix}{emoji} {node.variable} (يقين: {node.confidence:.2f}){rule_tag}"
+        result_lines = [line]
+        
+        for child in node.children:
+            result_lines.append(ExplanationGenerator._format_proof_tree(child, depth + 1, max_depth))
+            
+        return "\n".join(result_lines)
+    
+    @staticmethod
+    def _generate_nl_summary(hypothesis: str, result: Dict) -> str:
+        conf = result['confidence']
+        res = result['result']
+        method = result['method']
+        
+        # تصنيف درجة اليقين
+        if conf >= 0.9: certainty = "عالية جداً (شبه مؤكدة)"
+        elif conf >= 0.7: certainty = "عالية (موثوقة)"
+        elif conf >= 0.5: certainty = "متوسطة (تحتاج مزيداً من الأدلة)"
+        else: certainty = "منخفضة (غير مرجحة)"
+        
+        # صياغة السبب المنطقي
+        if method == "symbolic":
+            reason = "تم إثباتها منطقياً عبر تطبيق القواعد السببية (السلسلة الأمامية/الخلفية)."
+        elif method == "bayesian":
+            reason = "تم حسابها احتماليًا بناءً على الأدلة المرصودة وتفاعلات الشبكة السببية."
+        else:
+            reason = "تم دمج المنطق الرمزي والحسابات الاحتمالية للوصول لأدق نتيجة ممكنة."
+            
+        return (f"بناءً على الأدلة الحالية، فإن الفرضية '{hypothesis}' هي '{res}' "
+                f"بدرجة يقين {certainty} ({conf:.1%}). {reason}")
+
+    @staticmethod
+    def export_to_markdown(text: str, filename: str = "inference_report.md") -> str:
+        """تصدير التقرير كملف Markdown قابل للمشاركة أو العرض"""
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(text)
+        return f"✅ تم تصدير التقرير إلى: {filename}"
