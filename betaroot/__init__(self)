@@ -1,0 +1,45 @@
+class BetaRoot:
+    def __init__(self):
+        # مكونات أساسية
+        self.memory_store = {}              # تخزين المعرفة السياقية
+        self.knowledge_graph = {}           # تمثيل العلاقات السببية والمنطقية
+        self.inference_engine = None        # محرك الاستنتاج
+        self.parser = None                  # محلل لغوي (NLP parser)
+
+    # 🧠 إضافة المعرفة إلى الذاكرة
+    def add_to_memory(self, key, value):
+        self.memory_store[key] = value
+
+    # 🔍 استرجاع المعرفة
+    def get_from_memory(self, key):
+        return self.memory_store.get(key, None)
+
+    # 🌐 بناء الرسم البياني المعرفي
+    def add_relation(self, subject, relation, obj):
+        if subject not in self.knowledge_graph:
+            self.knowledge_graph[subject] = []
+        self.knowledge_graph[subject].append((relation, obj))
+
+    # 🧩 محلل لغوي بسيط
+    def parse_text(self, text):
+        # هنا يمكن دمج مكتبات مثل spaCy أو NLTK
+        tokens = text.split()
+        return tokens
+
+    # ⚖️ محرك الاستنتاج
+    def infer(self, query):
+        # مثال مبسط: البحث في الرسم البياني
+        if query in self.knowledge_graph:
+            return self.knowledge_graph[query]
+        return "لا توجد معرفة كافية للاستنتاج."
+
+    # 🗣️ واجهة رئيسية للمعالجة
+    def process(self, text):
+        tokens = self.parse_text(text)
+        reasoning = self.infer(tokens[0])   # مثال: استخدام أول كلمة كمدخل
+        return {
+            "input": text,
+            "tokens": tokens,
+            "reasoning": reasoning,
+            "memory": self.memory_store
+        }
