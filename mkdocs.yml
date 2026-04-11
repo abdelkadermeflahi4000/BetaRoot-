@@ -1,0 +1,77 @@
+# mkdocs.yml
+site_name: BetaRoot Documentation
+site_description: Hybrid cognitive AI framework combining symbolic reasoning, Bayesian inference, multi-layer memory, and self-reflection.
+site_url: https://abdelkadermeflahi4000.github.io/BetaRoot-
+repo_url: https://github.com/abdelkadermeflahi4000/BetaRoot-
+repo_name: BetaRoot-
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_signature: true
+            show_root_heading: true
+            show_root_full_path: false
+            members_order: alphabetical
+            separate_signature: true
+            filters: ["!^_"]  # إخفاء الأعضاء الخاصة افتراضياً
+            merge_init_into_class: true
+            inherited_members: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - admonition
+  - footnotes
+  - tables
+  - attr_list
+  - md_in_html
+
+nav:
+  - 🏠 Home: index.md
+  - 🚀 Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+      - Architecture Overview: getting-started/architecture.md
+  - 🧩 Core Engine:
+      - Knowledge & Facts: core/knowledge_base.md
+      - Inference & Chaining: core/inference_engines.md
+      - Bayesian & Causal Graphs: core/bayesian_engine.md
+      - Self-Reflection & Bias: core/self_reflection.md
+  - 🧠 Memory System:
+      - Multi-Layer Architecture: memory/overview.md
+      - Semantic & Vectors: memory/semantic.md
