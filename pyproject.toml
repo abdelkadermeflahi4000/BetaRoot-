@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "betaroot"
+version = "0.1.0"
+description = "A hybrid cognitive AI framework combining symbolic reasoning, Bayesian inference, multi-layer memory, and self-reflection."
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Abdelkader Meflahi", email = "abdelkadermeflahi4000@gmail.com"}
+]
+keywords = ["ai", "symbolic-reasoning", "bayesian-networks", "cognitive-architecture", "expert-system", "causal-inference"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "networkx>=3.0",
+    "pgmpy>=0.1.20",
+    "numpy>=1.24.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "ruff",
+    "build",
+    "twine",
+    "sentence-transformers" # اختياري: للذاكرة الدلالية المتقدمة
+]
+
+[project.scripts]
+betaroot-cli = "betaroot.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["betaroot*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
