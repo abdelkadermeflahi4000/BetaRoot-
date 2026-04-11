@@ -1,0 +1,15 @@
+def query(self, query_vars: List[str], evidence: Optional[Dict[str, Any]] = None) -> Dict[str, float]:
+    """Perform exact probabilistic inference using Variable Elimination.
+
+    Args:
+        query_vars: List of target variables to compute posterior probabilities for.
+        evidence: Observed states as `{variable_name: value}` dictionary.
+
+    Returns:
+        Dictionary mapping variable states to probabilities, e.g. `{'Rain=1': 0.44}`.
+
+    Raises:
+        RuntimeError: If the Bayesian network hasn't been built yet.
+        ValueError: If evidence contains variables not in the graph.
+    """
+    ...
