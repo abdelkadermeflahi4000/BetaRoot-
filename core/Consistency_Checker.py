@@ -94,3 +94,63 @@ class ConsistencyChecker:
             return fact1.get("value") != fact2.get("value")
 
         return False
+
+# betaroot/core/consistency_checker.py
+
+from typing import List, Dict, Any
+
+
+class ConsistencyError(Exception):
+    pass
+
+
+class ConsistencyChecker:
+    def __init__(self, knowledge_base):
+        self.kb = knowledge_base
+
+    def validate_fact(self, fact: Dict[str, Any]) -> bool:
+        # 1. تحقق من الـ confidence
+        if not self._validate_confidence(fact):
+            raise ConsistencyError("Invalid confidence value")
+
+        # 2. تحقق من التناقض
+        conflicts = self._find_conflicts(fact)
+
+        if conflicts:
+            raise ConsistencyError(
+                f"Contradiction with: {conflicts}"
+            )
+
+        return True
+
+    # --------------------------
+    # Confidence check
+    # --------------------------
+    def _validate_confidence(self, fact):
+        confidence = fact.get("confidence", 1.0)
+
+        # في Unary Logic: لا نقبل 0
+        if confidence <= 0 or confidence > 1:
+            return False
+
+        return True
+
+    # --------------------------
+    # Conflict detection
+    # --------------------------
+    def _find_conflicts(self, new_fact):
+        conflicts = []
+        existing_facts = self.kb.get_all_facts()
+
+        for fact in existing_facts:
+            if self._is_contradiction(fact, new_fact):
+                conflicts.append(fact)
+
+        return conflicts
+
+    def _is_contradiction(self, f1, f2):
+        return (
+            f1.get("subject") == f2.get("subject")
+            and f1.get("predicate") == f2.get("predicate")
+            and f1.get("value") != f2.get("value")
+        )
