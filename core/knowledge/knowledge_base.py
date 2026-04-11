@@ -76,3 +76,27 @@ class KnowledgeBase:
 
     def get_all_facts(self):
         return self.facts
+# betaroot/core/knowledge_base.py
+
+from typing import List, Dict
+from .consistency_checker import ConsistencyChecker, ConsistencyError
+
+
+class KnowledgeBase:
+    def __init__(self):
+        self.facts: List[Dict] = []
+        self.checker = ConsistencyChecker(self)
+
+    def add_fact(self, fact: Dict):
+        try:
+            # 🔥 أهم خطوة
+            self.checker.validate_fact(fact)
+
+            self.facts.append(fact)
+            print("✅ Fact added:", fact)
+
+        except ConsistencyError as e:
+            print("❌ Rejected:", e)
+
+    def get_all_facts(self):
+        return self.facts
