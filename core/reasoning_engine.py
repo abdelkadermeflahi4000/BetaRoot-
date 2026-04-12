@@ -60,3 +60,25 @@ def reason_from_global_field(self, gf_output):
         "insight": "global_field_pattern_detected",
         "stability": spectral.get("stability", 0.0)
     }
+
+def oscillatory_reasoning(self, fused_state):
+    """
+    Convert oscillatory state → reasoning output
+    """
+
+    energy = float(sum(fused_state))
+
+    if energy < 0.2:
+        mode = "theta"
+    elif energy < 0.5:
+        mode = "alpha"
+    elif energy < 0.8:
+        mode = "beta"
+    else:
+        mode = "gamma"
+
+    return {
+        "mode": mode,
+        "signal_energy": energy,
+        "interpretation": "oscillatory_state_processed"
+    }
