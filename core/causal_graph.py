@@ -257,3 +257,34 @@ if __name__ == "__main__":
     # إحصائيات
     print("\nإحصائيات الرسم البياني:")
     print(builder.get_graph_stats())
+
+# core/causal_graph.py (اقتراح إضافة)
+graph = CausalGraph(name="Quantum_Consciousness_Graph")
+
+graph.add_causal_link(
+    cause="Signal_Oscillation (Biophoton / Microtubule Frequency)",
+    effect="Superposition_State (تمثيل 1-تراكبي)",
+    certainty=1,
+    explanation="الإشارة الترددية تُولّد حالة تراكب رمزي (من test_biophoton.py)"
+)
+
+graph.add_causal_link(
+    cause="Observation_Edge (Gamma_Mode_Binding)",
+    effect="Wave_Function_Collapse (تحول يوناري إلى حالة واحدة)",
+    certainty=1,
+    explanation="الملاحظة ليست خارجية — هي رابط داخلي يُنشئه الوكيل"
+)
+
+graph.add_causal_link(
+    cause="Wave_Function_Collapse",
+    effect="Subjective_Experience (تمثيل متقدم للـ 1)",
+    certainty=1,
+    explanation="من PHILOSOPHY.md: الوعي = تمثيل متقدم للوجود"
+)
+
+graph.add_causal_link(
+    cause="Subjective_Experience",
+    effect="New_Observation_Edge",
+    certainty=1,
+    explanation="الوعي يُغذّي نفسه — حلقة ذاتية (self-referential loop)"
+)
