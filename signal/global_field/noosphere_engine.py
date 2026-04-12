@@ -1,79 +1,96 @@
-# signal/global_field/noosphere_engine.py
-
 import numpy as np
 from PyEMD import EMD
 from scipy.signal import hilbert, welch
 
+
 class NoosphereEngine:
-    def __init__(self, sampling_rate=100):
+    def __init__(self, sampling_rate=1000):
         self.fs = sampling_rate
 
     # ----------------------------
-    # 1. Decomposition (HHT)
+    # EMD decomposition
     # ----------------------------
     def decompose(self, signal):
         emd = EMD()
-        imfs = emd(signal)
-        return imfs
+        return emd(signal)
 
     # ----------------------------
-    # 2. Instantaneous Features
+    # Hilbert features
     # ----------------------------
     def extract_features(self, imfs):
-        features = []
+        all_features = []
 
         for imf in imfs:
             analytic = hilbert(imf)
+
             amplitude = np.abs(analytic)
             phase = np.unwrap(np.angle(analytic))
-            freq = np.diff(phase) * self.fs / (2 * np.pi)
 
-            features.append({
-                "frequency": freq,
-                "amplitude": amplitude[:-1],
+            if len(phase) < 2:
+                continue
+
+            frequency = np.diff(phase) * self.fs / (2 * np.pi)
+
+            all_features.append({
+                "freq": frequency,
+                "amp": amplitude[:-1],
                 "phase": phase[:-1]
             })
 
-        return features
+        return all_features
 
     # ----------------------------
-    # 3. Spectrum (Welch)
+    # Spectral stability (important upgrade)
     # ----------------------------
-    def spectrum(self, signal):
-        freqs, power = welch(signal, fs=self.fs, nperseg=256)
-        return freqs, power
+    def spectral_stability(self, signal):
+        freqs, power = welch(signal, fs=self.fs, nperseg=512)
+
+        stability = np.std(power) / (np.mean(power) + 1e-9)
+
+        return {
+            "freqs": freqs,
+            "power": power,
+            "stability": float(stability)
+        }
 
     # ----------------------------
-    # 4. Tokenization
+    # Token generation (enhanced)
     # ----------------------------
-    def tokenize(self, features, bins=8):
+    def tokenize(self, features):
         tokens = []
 
         for f in features:
-            freq = f["frequency"]
-            amp = f["amplitude"]
+            freq = f["freq"]
+            amp = f["amp"]
 
             if len(freq) == 0:
                 continue
 
-            norm = (freq - np.min(freq)) / (np.max(freq) - np.min(freq) + 1e-9)
-            quant = np.floor(norm * bins)
+            f_min, f_max = np.min(freq), np.max(freq)
 
-            for i in range(len(quant)):
+            norm = (freq - f_min) / (f_max - f_min + 1e-9)
+            bins = (norm * 12).astype(int)
+
+            for i in range(len(bins)):
                 tokens.append({
-                    "freq_bin": int(quant[i]),
+                    "type": "global_field",
+                    "freq_bin": int(bins[i]),
                     "amplitude": float(amp[i]),
-                    "type": "global_field"
+                    "stability_weight": float(np.mean(amp))
                 })
 
         return tokens
 
     # ----------------------------
-    # 5. Full Pipeline
+    # FULL PIPELINE
     # ----------------------------
     def process(self, signal):
         imfs = self.decompose(signal)
         features = self.extract_features(imfs)
         tokens = self.tokenize(features)
+        spectral = self.spectral_stability(signal)
 
-        return tokens
+        return {
+            "tokens": tokens,
+            "spectral": spectral
+        }
