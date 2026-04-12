@@ -82,3 +82,25 @@ def oscillatory_reasoning(self, fused_state):
         "signal_energy": energy,
         "interpretation": "oscillatory_state_processed"
     }
+
+def curiosity_reasoning(self, curiosity_output):
+    """
+    reasoning without reward, based on novelty only
+    """
+
+    curiosity = curiosity_output["curiosity"]
+    novelty = curiosity_output["novelty"]
+
+    if novelty and curiosity > 0.5:
+        mode = "exploratory"
+    elif curiosity > 0.2:
+        mode = "adaptive"
+    else:
+        mode = "convergent"
+
+    return {
+        "mode": mode,
+        "curiosity_level": curiosity,
+        "novelty_detected": novelty,
+        "interpretation": "intrinsic_learning_active"
+    }
