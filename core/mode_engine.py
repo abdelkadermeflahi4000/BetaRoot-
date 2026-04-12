@@ -30,3 +30,21 @@ class ModeEngine:
             self.mode = "theta"
 
         return self.mode
+
+def mode_from_signal(self, spectral_data):
+    """
+    Auto mode selection based on signal stability
+    """
+
+    stability = spectral_data.get("stability", 0.5)
+
+    if stability < 0.3:
+        self.mode = "alpha"   # chaotic / exploratory
+    elif stability < 0.6:
+        self.mode = "theta"   # memory-heavy
+    elif stability < 0.8:
+        self.mode = "beta"    # logical processing
+    else:
+        self.mode = "gamma"   # integration
+
+    return self.mode
