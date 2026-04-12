@@ -31,3 +31,12 @@ class MemoryStore:
 
     def get_rules(self):
         return self.rules
+
+def add_biophoton_tokens(self, tokens):
+    for token in tokens:
+        self.add_fact(
+            content=f"freq_bin={token['freq_bin']}, amp={token['amplitude']:.3f}",
+            fact_type="biophoton",
+            mode="alpha",  # exploratory by default
+            confidence=0.5
+        )
