@@ -43,3 +43,20 @@ class ReasoningEngine:
             "mode": "gamma",
             "synthesis": facts
         }
+
+def reason_from_global_field(self, gf_output):
+    """
+    Interpret global field tokens inside reasoning engine
+    """
+
+    tokens = gf_output.get("tokens", [])
+    spectral = gf_output.get("spectral", {})
+
+    mode = self.mode_engine.mode_from_signal(spectral)
+
+    return {
+        "mode": mode,
+        "token_count": len(tokens),
+        "insight": "global_field_pattern_detected",
+        "stability": spectral.get("stability", 0.0)
+    }
