@@ -40,3 +40,12 @@ def add_biophoton_tokens(self, tokens):
             mode="alpha",  # exploratory by default
             confidence=0.5
         )
+
+def add_global_field_tokens(self, tokens):
+    for t in tokens:
+        self.add_fact(
+            content=f"GF freq_bin={t['freq_bin']} amp={t['amplitude']:.3f}",
+            fact_type="global_signal",
+            mode="alpha",
+            confidence=0.4
+        )
