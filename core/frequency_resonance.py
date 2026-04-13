@@ -442,3 +442,16 @@ if __name__ == "__main__":
     print("\n" + "=" * 70)
     print("✨ نظام الرنين الترددي متكامل ومستعد!")
     print("=" * 70)
+
+def assess_coherence(self, current_freq: float = 7.83, amplitude: float = 1.0):
+    deviation = abs(current_freq - self.BASE_FREQUENCY)
+    coherence_score = max(0.0, 1.0 - (deviation / 2.0))  # مثال بسيط
+    
+    if coherence_score < 0.7:
+        return {
+            "status": "CONTAMINATED",
+            "deviation": deviation,
+            "suggested_action": "Activate Unary Correction + 7.83 Hz Entrainment Pattern",
+            "coherence": coherence_score
+        }
+    return {"status": "COHERENT", "coherence": coherence_score}
