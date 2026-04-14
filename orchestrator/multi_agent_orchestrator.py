@@ -116,3 +116,10 @@ class MultiAgentOrchestrator:
         final_result = await self.fusion.fuse_and_evolve(validation_result, user_query)
 
         return final_result
+
+# داخل orchestrate()
+final_result = await self.fusion.fuse_and_evolve(validation_result, user_query)
+
+# تشغيل Self-Evolution بعد كل دورة كبيرة
+if len(validation_result.get("validated_count", 0)) > 2:
+    await self.core.evolve({"correction_needed": validation_result.get("correction_needed", False)})
