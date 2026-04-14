@@ -1,13 +1,12 @@
+# agents/explorer_agent.py
+
+import random
+
 class ExplorerAgent:
-    def explore(self, query, kb):
-        """
-        يبحث عن علاقات جديدة
-        """
-
-        results = []
-
-        for fact in kb.get_all_facts():
-            if fact["subject"] == query["subject"]:
-                results.append(fact)
-
-        return results
+    def process(self, state, signal):
+        return {
+            "agent": "explorer",
+            "action": "EXPLORE",
+            "confidence": random.random(),
+            "energy": 0.9
+        }
