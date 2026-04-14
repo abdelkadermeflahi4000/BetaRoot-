@@ -1,0 +1,12 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: betaroot-service
+spec:
+  selector:
+    app: betaroot
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
