@@ -44,3 +44,13 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
     CMD python -c "import betaroot; import sys; sys.exit(0)" || exit 1
 
 CMD ["betaroot-cli", "--help"]
+
+# Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD ["python", "main.py"]
