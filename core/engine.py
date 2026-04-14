@@ -345,3 +345,18 @@ class BetaRootEngine:
 
     def evolution_cycle(self):
         self.rewriter.evolve(self.state.data)
+
+# داخل engine.py
+
+from core.architecture.architecture_engine import ArchitectureEngine
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.arch_engine = ArchitectureEngine()
+
+    def architecture_cycle(self):
+        best_arch = self.arch_engine.evolve(self.state.data)
+
+        print("[ACTIVE ARCHITECTURE]", best_arch)
