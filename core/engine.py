@@ -313,3 +313,22 @@ class BetaRootEngine:
 
             # 3. التأثير على القرار
             self.state.update("theory", theory)
+
+# داخل engine.py
+
+from core.world.world_engine import WorldEngine
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.world = WorldEngine()
+
+    def decision_cycle(self):
+        possible_actions = ["EXPLORE", "ANALYZE", "REST"]
+
+        action, score = self.world.decide(self.state, possible_actions)
+
+        print(f"[WORLD DECISION] {action} (score={score})")
+
+        self.execute(action)
