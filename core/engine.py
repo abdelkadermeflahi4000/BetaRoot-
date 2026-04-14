@@ -360,3 +360,17 @@ class BetaRootEngine:
         best_arch = self.arch_engine.evolve(self.state.data)
 
         print("[ACTIVE ARCHITECTURE]", best_arch)
+
+# داخل engine.py
+
+from core.deployment.self_update import SelfUpdater
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.updater = SelfUpdater(repo_path=".")
+
+    def background_tasks(self):
+        import threading
+        threading.Thread(target=self.updater.auto_update_loop).start()
