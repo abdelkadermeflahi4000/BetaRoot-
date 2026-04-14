@@ -38,3 +38,39 @@ class BetaRootEngine:
         while True:
             self.cycle()
             time.sleep(0.1)
+
+from core.conflict_engine import ConflictEngine
+from core.emergence import EmergenceTracker
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.conflict = ConflictEngine()
+        self.emergence = EmergenceTracker()
+
+    def cycle(self):
+        signal = self.signal_engine.generate()
+
+        decisions = self.orchestrator.run_agents(self.state, signal)
+
+        # ⚔️ حل الصراع
+        winner = self.conflict.resolve(decisions)
+
+        if winner:
+            action = winner["action"]
+
+            print("[ACTION]", action)
+
+            self.state.update("last_action", action)
+
+            # 🌊 تتبع الانبثاق
+            self.emergence.track(winner)
+
+            pattern = self.emergence.detect_pattern()
+
+            if pattern:
+                print("[EMERGENCE]", pattern)
+
+        # 🔬 التطور
+        self.evolve_system()
