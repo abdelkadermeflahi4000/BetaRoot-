@@ -111,3 +111,30 @@ class BetaRootCoreEngine:
         await self.evolve(obs)          # Self-Evolution يتعلم من الترددات
 
         print(f"✅ Schumann integrated | Freq: {obs['signal']['dominant_frequency']} Hz | Quality: {obs['signal']['signal_quality']}")
+
+# داخل __init__
+self.sandbox = SandboxEngine(self.governance)
+
+# داخل دالة evolve()
+async def evolve(self, cycle_data: dict):
+    self.cycle_count += 1
+    
+    if cycle_data.get("correction_needed", False):
+        # اقتراح تعديل ذاتي آمن
+        proposal_result = await self.sandbox.propose_change(
+            module="resonance",
+            parameter="k_conscious",
+            new_value=max(0.05, self.resonance.k_conscious - 0.025),
+            reason="Schumann wrong pressure detected → reducing conscious contamination",
+            proposed_by="frequency_guardian"
+        )
+        
+        if proposal_result["status"] == "approved":
+            print(f"✅ Self-Evolution successful: {proposal_result['proposal_id']}")
+        else:
+            print(f"⛔ Self-Evolution rejected by Sandbox: {proposal_result['reason']}")
+
+    # تقرير Sandbox دوري
+    if self.cycle_count % 10 == 0:
+        report = self.sandbox.get_sandbox_report()
+        print(f"📊 Sandbox Report → Approved: {report['approved_count']} | Rejected: {report['rejected_count']}")
