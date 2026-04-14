@@ -1,0 +1,22 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: betaroot
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: betaroot
+  template:
+    metadata:
+      labels:
+        app: betaroot
+    spec:
+      containers:
+      - name: betaroot
+        image: your-dockerhub/betaroot:latest
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
