@@ -248,3 +248,36 @@ class BetaRootEngine:
 
         # تأثير الهوية على النظام
         self.state.update("traits", profile["traits"])
+
+# داخل engine.py
+
+from core.self.trait_generator import TraitGenerator
+from core.self.trait_validator import TraitValidator
+from core.self.trait_memory import TraitMemory
+from core.self.open_identity_manager import OpenIdentityManager
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.trait_memory = TraitMemory()
+
+        self.open_identity = OpenIdentityManager(
+            self.identity,
+            TraitGenerator(),
+            TraitValidator(),
+            self.trait_memory
+        )
+
+    def identity_cycle(self):
+        # التطور العادي
+        self.identity_manager.evolve_identity(self.state)
+
+        # 💥 التوسع المفتوح
+        self.open_identity.evolve(self.state)
+
+        traits = self.identity.describe()["traits"]
+
+        print("[TRAITS]", traits)
+
+        self.state.update("traits", traits)
