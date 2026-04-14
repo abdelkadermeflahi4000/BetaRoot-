@@ -122,3 +122,64 @@ class CycleEngine:
 if __name__ == "__main__":
     engine = CycleEngine()
     asyncio.run(engine.start(interval_seconds=30))   # كل 30 ثانية دورة
+
+# betaroot/core/cycle_engine.py
+import asyncio
+from datetime import datetime
+
+from .frequency_guardian import FrequencyGuardian
+from .memory_system import BetaRootMemorySystem, MemoryType, Priority
+from .consolidation_engine import ConsolidationEngine
+from .governance import GovernanceEngine, Action
+
+class CycleEngine:
+    """الدورة المغلقة الذاتية — قلب BetaRoot Ω"""
+
+    def __init__(self, governance: GovernanceEngine):
+        self.governance = governance
+        self.memory = BetaRootMemorySystem()
+        self.consolidator = ConsolidationEngine(self.memory)
+        self.guardian = FrequencyGuardian()
+        self.running = False
+        self.cycle_count = 0
+
+    async def run_cycle(self):
+        """دورة واحدة كاملة"""
+        self.cycle_count += 1
+        print(f"\n🔄 Cycle #{self.cycle_count} - {datetime.now().strftime('%H:%M:%S')}")
+
+        # 1. مراقبة الترددات
+        freq_action = await self.guardian.monitor_and_act()
+
+        # 2. Governance Check
+        action = Action(freq_action["action"])
+        if not self.governance.check(action):
+            return
+
+        # 3. حفظ الملاحظة
+        self.memory.store(
+            content=freq_action,
+            memory_type=MemoryType.EPISODIC,
+            priority=Priority.HIGH if freq_action.get("priority", 0) > 0.7 else Priority.MEDIUM,
+            source="FrequencyGuardian"
+        )
+
+        # 4. دمج كل 5 دورات
+        if self.cycle_count % 5 == 0:
+            cons = self.consolidator.consolidate()
+            if cons.success:
+                print(f"🧠 Consolidation: {cons.message}")
+
+        print(f"✅ Cycle completed | Action: {freq_action['action']}")
+
+    async def start(self):
+        self.running = True
+        print("🌌 BetaRoot Ω يعمل في وضع مغلق ذاتي...")
+
+        while self.running:
+            await self.run_cycle()
+            await asyncio.sleep(30)   # كل 30 ثانية دورة كاملة
+
+    def stop(self):
+        self.running = False
+        print("⏹️ النظام تم إيقافه بأمان.")
