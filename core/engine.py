@@ -281,3 +281,35 @@ class BetaRootEngine:
         print("[TRAITS]", traits)
 
         self.state.update("traits", traits)
+
+# داخل engine.py
+
+from core.concepts.concept_memory import ConceptMemory
+from core.concepts.theory_builder import TheoryBuilder
+from core.concepts.theory_evaluator import TheoryEvaluator
+from core.concepts.theory_engine import TheoryEngine
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.concept_memory = ConceptMemory()
+
+        self.theory_engine = TheoryEngine(
+            self.concept_memory,
+            TheoryBuilder(),
+            TheoryEvaluator()
+        )
+
+    def conceptual_cycle(self):
+        # 1. أخذ المفاهيم من الذاكرة
+        concepts = self.memory.patterns  # من Emergent Memory
+
+        # 2. بناء النظرية
+        theory = self.theory_engine.evolve(concepts)
+
+        if theory:
+            print("[THEORY]", theory["rules"])
+
+            # 3. التأثير على القرار
+            self.state.update("theory", theory)
