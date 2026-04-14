@@ -81,3 +81,33 @@ class BetaRootCoreEngine:
     def stop(self):
         self.running = False
         print("⏹️ Core Engine تم إيقافه.")
+
+class BetaRootCoreEngine:
+    def __init__(self):
+        self.signal_layer = RealSignalLayer()          # ← التكامل الجديد
+        # ... باقي الـ init السابق ...
+
+    async def observe(self):
+        """الآن يعتمد على Schumann الحي"""
+        signal_data = await self.signal_layer.monitor_real_time()
+        return {
+            "signal": signal_data,
+            "frequency_status": signal_data["wrong_pressure"],
+            "timestamp": datetime.now().isoformat()
+        }
+
+    async def run_cycle(self):
+        self.cycle_count += 1
+        print(f"\n🔥 Cycle #{self.cycle_count} | Schumann Source: {self.signal_layer.last_data.get('source', 'N/A')}")
+
+        obs = await self.observe()
+
+        action = Action.ACTIVATE_CORRECTION if obs["signal"]["correction_needed"] else Action.MAINTAIN_STABILITY
+        if not self.governance.check(action):
+            return
+
+        self.memory.store(obs, MemoryType.EPISODIC, Priority.HIGH, source="RealSignalLayer")
+
+        await self.evolve(obs)          # Self-Evolution يتعلم من الترددات
+
+        print(f"✅ Schumann integrated | Freq: {obs['signal']['dominant_frequency']} Hz | Quality: {obs['signal']['signal_quality']}")
