@@ -32,3 +32,18 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+from orchestrator.multi_agent_orchestrator import MultiAgentOrchestrator
+import asyncio
+
+async def main():
+    orchestrator = MultiAgentOrchestrator()
+    result = await orchestrator.orchestrate("لماذا السماء زرقاء؟ اشرح بطريقة علمية وفلسفية")
+    
+    print("\n=== النتيجة النهائية من BetaRoot ===")
+    print(result["final_answer"])
+    print("\n=== الشرح الكامل ===")
+    print(result["explanation"])
+
+if __name__ == "__main__":
+    asyncio.run(main())
