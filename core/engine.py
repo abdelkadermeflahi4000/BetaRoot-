@@ -220,3 +220,31 @@ if proposal_result["status"] == "approved":
     print(f"🛡️ Sandbox approved safe evolution → new k_conscious = {proposal_result['new_value']}")
 else:
     print(f"🚫 Sandbox blocked risky change: {proposal_result['reason']}")
+
+# داخل engine.py
+
+from core.self.identity_core import IdentityCore
+from core.self.identity_mutator import IdentityMutator
+from core.self.identity_evaluator import IdentityEvaluator
+from core.self.identity_manager import IdentityManager
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.identity = IdentityCore()
+        self.identity_manager = IdentityManager(
+            self.identity,
+            IdentityMutator(),
+            IdentityEvaluator()
+        )
+
+    def identity_cycle(self):
+        self.identity_manager.evolve_identity(self.state)
+
+        profile = self.identity.describe()
+
+        print("[IDENTITY STATE]", profile)
+
+        # تأثير الهوية على النظام
+        self.state.update("traits", profile["traits"])
