@@ -206,3 +206,17 @@ class BetaRootEngine:
 
         elif strategy == "increase reasoning":
             self.state.update("bias", {"reason": 1.2})
+
+# داخل evolve() في CoreEngine
+proposal_result = await self.sandbox.propose_change(
+    module="resonance",
+    parameter="k_conscious",
+    new_value=0.12,   # خفض التلوث الوعي
+    reason="Schumann wrong pressure detected in last cycle",
+    proposed_by="frequency_guardian"
+)
+
+if proposal_result["status"] == "approved":
+    print(f"🛡️ Sandbox approved safe evolution → new k_conscious = {proposal_result['new_value']}")
+else:
+    print(f"🚫 Sandbox blocked risky change: {proposal_result['reason']}")
