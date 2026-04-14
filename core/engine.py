@@ -120,3 +120,57 @@ class BetaRootEngine:
 
             if rule:
                 print("[GRAMMAR]", rule)
+
+from core.self.self_model import SelfModel
+from core.self.introspection import Introspection
+from core.self.reflection import Reflection
+from core.self.meta_controller import MetaController
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.self_model = SelfModel()
+        self.introspection = Introspection()
+        self.reflection = Reflection()
+        self.meta = MetaController()
+
+    def self_cycle(self):
+        # تحديث الذات
+        self.self_model.update(self.state)
+
+        # تحليل داخلي
+        insight = self.introspection.analyze(self.state)
+
+        # انعكاس
+        reflection = self.reflection.reflect(self.self_model, insight)
+
+        print("[SELF]", self.self_model.describe())
+        print("[REFLECTION]", reflection)
+
+        # قرار ذاتي
+        bias = self.meta.decide(self.self_model)
+
+        # حقن التحيز داخل النظام
+        self.state.update("bias", bias)
+
+    def cycle(self):
+        signal = self.signal_engine.generate()
+
+        decisions = self.orchestrator.run_agents(self.state, signal)
+
+        winner = self.conflict.resolve(decisions)
+
+        if winner:
+            action = winner["action"]
+
+            self.state.update("last_action", action)
+
+        # 🧠 الوعي الذاتي
+        self.self_cycle()
+
+        # 🧬 الذاكرة واللغة
+        ...
+        
+        # 🔬 التطور
+        self.evolve_system()
