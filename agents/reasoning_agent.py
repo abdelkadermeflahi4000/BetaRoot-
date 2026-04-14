@@ -1,6 +1,10 @@
-class ReasoningAgent:
-    def __init__(self, engine):
-        self.engine = engine
+# agents/reasoning_agent.py
 
-    def execute(self, query):
-        return self.engine.reason(query)
+class ReasoningAgent:
+    def process(self, state, signal):
+        return {
+            "agent": "reasoning",
+            "action": "ANALYZE",
+            "confidence": abs(signal["wave"]),
+            "energy": 0.6
+        }
