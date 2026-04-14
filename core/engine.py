@@ -174,3 +174,35 @@ class BetaRootEngine:
         
         # 🔬 التطور
         self.evolve_system()
+
+from core.self.identity_stack import IdentityStack
+from core.self.layers import SelfLayers
+from core.self.recursive_engine import RecursiveSelf
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.identity_stack = IdentityStack()
+        self.self_layers = SelfLayers()
+        self.recursive_self = RecursiveSelf(
+            self.identity_stack,
+            self.self_layers
+        )
+
+    def self_recursive_cycle(self):
+        result = self.recursive_self.run(self.state)
+
+        print("[L1 Awareness]", result["L1"])
+        print("[L2 Reflection]", result["L2"])
+        print("[L3 Strategy]", result["L3"])
+        print("[L4 Meta]", result["L4"])
+
+        # 🔥 التأثير على النظام
+        strategy = result["L3"].get("strategy")
+
+        if strategy == "increase exploration":
+            self.state.update("bias", {"explore": 1.2})
+
+        elif strategy == "increase reasoning":
+            self.state.update("bias", {"reason": 1.2})
