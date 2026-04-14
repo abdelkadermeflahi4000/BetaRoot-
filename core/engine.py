@@ -332,3 +332,16 @@ class BetaRootEngine:
         print(f"[WORLD DECISION] {action} (score={score})")
 
         self.execute(action)
+
+# داخل engine.py
+
+from core.self_rewrite.rewrite_engine import RewriteEngine
+
+class BetaRootEngine:
+
+    def __init__(self, agents):
+        ...
+        self.rewriter = RewriteEngine()
+
+    def evolution_cycle(self):
+        self.rewriter.evolve(self.state.data)
