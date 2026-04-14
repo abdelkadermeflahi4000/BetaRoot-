@@ -94,3 +94,25 @@ class MultiAgentOrchestrator:
             "schumann_pressure": signal["wrong_pressure"]["wrong_pressure"],
             "timestamp": datetime.now().isoformat()
         }
+
+from .validation_layer import ValidationLayer
+from .fusion_engine import FusionEngine
+
+class MultiAgentOrchestrator:
+    def __init__(self):
+        self.validation = ValidationLayer()
+        self.fusion = FusionEngine()
+        # ... (الـ agents الخارجيين كما في الرد السابق)
+
+    async def orchestrate(self, user_query: str) -> Dict:
+        # 1. توزيع على الوكلاء الخارجيين
+        tasks = [self.query_external_agent(name, user_query) for name in self.agents]
+        raw_responses = {r["agent"]: r["response"] for r in await asyncio.gather(*tasks) if r["success"]}
+
+        # 2. التحقق + الدمج
+        validation_result = await self.validation.validate_and_fuse(raw_responses, user_query)
+
+        # 3. الدمج النهائي + Self-Evolution
+        final_result = await self.fusion.fuse_and_evolve(validation_result, user_query)
+
+        return final_result
