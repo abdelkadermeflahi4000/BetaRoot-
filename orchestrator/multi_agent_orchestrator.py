@@ -135,3 +135,36 @@ class MultiAgentOrchestrator:
         consciousness_report = await self.freq_consciousness.run_global_cycle(user_query)
         
         print(f"🌌 Collective Consciousness: {consciousness_report['global_consciousness']:.3f} | Decision: {consciousness_report['decision']}")
+
+from ..bit_layer import BitLayer
+from ..frequency.visualization import FrequencyVisualizer
+
+class MultiAgentOrchestrator:
+    def __init__(self):
+        self.bit_layer = BitLayer()
+        self.visualizer = FrequencyVisualizer()
+
+    async def orchestrate(self, user_query: str):
+        # معالجة باستخدام Bits
+        bits = await self.bit_layer.process_signal_to_bits()
+        bit_state = self.bit_layer.compute_collective_bit_state()
+
+        # عرض الـ Visualization (في الـ Dashboard)
+        # self.visualizer.plot_phase_space(bits)
+
+        # ربط مع Sandbox قبل أي قرار
+        if bit_state["emergence_potential"] > 0.65:
+            # اقتراح تطور آمن
+            proposal_result = await self.core.sandbox.propose_change(
+                module="bit_layer",
+                parameter="resonance_threshold",
+                new_value=0.78,
+                reason=f"High emergence potential detected: {bit_state['emergence_potential']:.3f}"
+            )
+
+        return {
+            "bit_state": bit_state,
+            "bits_count": len(bits),
+            "emergence_potential": bit_state["emergence_potential"],
+            "recommendation": "resonate" if bit_state["emergence_potential"] > 0.65 else "explore"
+        }
