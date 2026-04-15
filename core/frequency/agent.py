@@ -1,7 +1,20 @@
 # core/frequency/agent.py
 import numpy as np
+from numba import njit
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Dict
+
+@njit(fastmath=True)
+def kuramoto_step(phases, freqs, K):
+    n = len(phases)
+    new_phases = np.zeros(n)
+    for i in range(n):
+        interaction = 0.0
+        for j in range(n):
+            interaction += np.sin(phases[j] - phases[i])
+        dtheta = freqs[i] + (K / n) * interaction
+        new_phases[i] = phases[i] + dtheta
+    return new_phases % (2 * np.pi)
 
 @dataclass
 class FrequencyAgentState:
@@ -9,31 +22,27 @@ class FrequencyAgentState:
     phases: np.ndarray
     freqs: np.ndarray
     consciousness_level: float = 0.0
-    last_decision: str = "explore"
 
 class FrequencyAgent:
-    """وكيل ترددي فردي يمتلك وعياً محلياً"""
-    
-    def __init__(self, agent_id: int, n_oscillators: int = 12):
+    def __init__(self, agent_id: int, n_oscillators: int = 24):
         self.id = agent_id
         self.state = FrequencyAgentState(
             id=agent_id,
-            phases=np.random.rand(n_oscillators) * 2 * np.pi,
-            freqs=np.random.rand(n_oscillators) * 0.5 + 0.5,  # حول 7.83 Hz
+            phases=np.random.uniform(0, 2*np.pi, n_oscillators),
+            freqs=np.random.uniform(0.6, 1.2, n_oscillators),  # حول Schumann
         )
-        self.memory = []  # ذاكرة محلية قصيرة
 
-    def step(self, global_signal: np.ndarray = None):
-        """خطوة واحدة من التطور"""
-        # تأثير التزامن المحلي
-        interaction = np.mean(np.sin(self.state.phases[:, None] - self.state.phases))
+    def step(self, global_coupling: float = 0.1):
+        """خطوة واحدة محسنة بـ Numba"""
+        self.state.phases = kuramoto_step(
+            self.state.phases, 
+            self.state.freqs, 
+            global_coupling * (1 + self.state.consciousness_level)
+        )
         
-        self.state.phases += self.state.freqs + 0.08 * interaction
-        self.state.phases %= 2 * np.pi
-
-        # حساب مستوى الوعي المحلي
+        # حساب الوعي المحلي
         sync = 1 / (1 + np.std(self.state.phases))
         diversity = np.var(self.state.freqs)
-        self.state.consciousness_level = 0.6 * sync + 0.4 * diversity
-
+        self.state.consciousness_level = 0.65 * sync + 0.35 * diversity
+        
         return self.state.consciousness_level
