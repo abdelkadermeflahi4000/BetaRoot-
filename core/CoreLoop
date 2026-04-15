@@ -1,0 +1,22 @@
+class CoreLoop:
+    def __init__(self, system):
+        self.system = system
+    
+    def run(self, input_data):
+        # 1. encode → frequency
+        freq = self.system.frequency.encode(input_data)
+        
+        # 2. reasoning عبر bus
+        result, trace = self.system.bus.execute_pipeline(freq)
+        
+        # 3. store في الذاكرة
+        self.system.memory.store_experience(input_data, result)
+        
+        # 4. تقييم
+        score = self.evaluate(trace)
+        
+        # 5. التطور
+        self.system.evolution.observe(score)
+        self.system.evolution.mutate(self.system)
+        
+        return result
