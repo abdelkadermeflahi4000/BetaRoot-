@@ -1,0 +1,6 @@
+class TimeLearning:
+    def improve(self, memory):
+        for experience in memory:
+            simulated = self.replay(experience)
+            better = self.optimize(simulated)
+            self.update_system(better)
