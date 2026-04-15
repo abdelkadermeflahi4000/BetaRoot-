@@ -67,3 +67,25 @@ class BitLayer:
             "dominant_frequency": np.mean([b.frequency for b in self.bits]),
             "emergence_potential": avg_resonance * avg_consciousness
         }
+
+from .frequency.genetic_encoder import GeneticEncoder
+from .frequency.bit import GeneticFrequencyBit
+from .real_signal_layer import RealSignalLayer
+
+class BitLayer:
+    def __init__(self):
+        self.bits = []
+        self.encoder = GeneticEncoder()
+        self.signal_layer = RealSignalLayer()
+
+    async def ingest_plant(self, plant_name: str, signal: np.ndarray):
+        """استيعاب إشارة نباتية → Bit"""
+        bit = self.encoder.encode_plant_signal(plant_name, signal)
+        self.bits.append(bit)
+        return bit
+
+    def get_nature_consciousness(self) -> float:
+        """مستوى الوعي الطبيعي (من الأشجار والنباتات)"""
+        if not self.bits:
+            return 0.0
+        return np.mean([b.consciousness_bridge for b in self.bits])
