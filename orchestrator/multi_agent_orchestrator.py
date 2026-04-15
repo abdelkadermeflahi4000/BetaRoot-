@@ -123,3 +123,15 @@ final_result = await self.fusion.fuse_and_evolve(validation_result, user_query)
 # تشغيل Self-Evolution بعد كل دورة كبيرة
 if len(validation_result.get("validated_count", 0)) > 2:
     await self.core.evolve({"correction_needed": validation_result.get("correction_needed", False)})
+
+from ..frequency.multi_agent_consciousness import MultiAgentFrequencyConsciousness
+
+class MultiAgentOrchestrator:
+    def __init__(self):
+        self.freq_consciousness = MultiAgentFrequencyConsciousness(num_agents=12)
+
+    async def orchestrate(self, user_query: str):
+        # ... باقي الكود ...
+        consciousness_report = await self.freq_consciousness.run_global_cycle(user_query)
+        
+        print(f"🌌 Collective Consciousness: {consciousness_report['global_consciousness']:.3f} | Decision: {consciousness_report['decision']}")
