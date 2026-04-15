@@ -31,7 +31,6 @@ class FrequencyVisualizer:
         plt.ylim(0, 1)
         plt.show()
 
-# betaroot/core/frequency/visualization.py
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
