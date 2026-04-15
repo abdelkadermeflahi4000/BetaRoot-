@@ -1,0 +1,6 @@
+class CausalEngine:
+    def analyze(self, freq, memory_hits):
+        return {
+            "causes": self.extract_causes(freq),
+            "effects": self.predict_effects(freq, memory_hits)
+        }
