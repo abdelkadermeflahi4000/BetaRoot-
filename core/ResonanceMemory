@@ -1,0 +1,6 @@
+class ResonanceMemory:
+    def store(self, freq, outcome):
+        self.memory[freq] = outcome
+    
+    def retrieve(self, freq):
+        return self.find_closest_frequency(freq)
