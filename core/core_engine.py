@@ -138,3 +138,22 @@ async def evolve(self, cycle_data: dict):
     if self.cycle_count % 10 == 0:
         report = self.sandbox.get_sandbox_report()
         print(f"📊 Sandbox Report → Approved: {report['approved_count']} | Rejected: {report['rejected_count']}")
+
+async def process_with_bits(self, user_query: str):
+    """معالجة الاستعلام باستخدام طبقة الـ Bit"""
+    # 1. تحويل الإشارة إلى Bits
+    bits = await self.bit_layer.process_signal_to_bits()
+
+    # 2. حساب الحالة الجماعية
+    bit_state = self.bit_layer.compute_collective_bit_state()
+
+    # 3. ربط مع الوعي الجماعي
+    consciousness_report = await self.freq_consciousness.run_global_cycle(user_query)
+
+    # 4. إرسال إلى Orchestrator
+    return {
+        "bit_state": bit_state,
+        "consciousness": consciousness_report,
+        "query": user_query,
+        "recommendation": "resonate" if bit_state["emergence_potential"] > 0.6 else "explore"
+    }
