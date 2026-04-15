@@ -1,0 +1,17 @@
+class SelfEvolutionCore:
+    def __init__(self):
+        self.history = []
+    
+    def observe(self, score):
+        self.history.append(score)
+    
+    def mutate(self, system):
+        if self.should_improve():
+            self.modify_parameters(system)
+    
+    def should_improve(self):
+        return sum(self.history[-5:]) / 5 < 0.8
+    
+    def modify_parameters(self, system):
+        # مثال: تعديل حساسية التردد
+        system.frequency.threshold *= 0.95
