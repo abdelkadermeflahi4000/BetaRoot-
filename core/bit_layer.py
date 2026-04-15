@@ -89,3 +89,38 @@ class BitLayer:
         if not self.bits:
             return 0.0
         return np.mean([b.consciousness_bridge for b in self.bits])
+
+from .frequency.genetic_encoder import GeneticEncoder
+from .frequency.bit import GeneticFrequencyBit
+from .frequency.visualization import PlantFrequencyVisualizer
+from ..nature.plant_database import PlantDatabase
+
+class BitLayer:
+    def __init__(self):
+        self.bits: List[GeneticFrequencyBit] = []
+        self.encoder = GeneticEncoder()
+        self.plant_db = PlantDatabase()
+        self.visualizer = PlantFrequencyVisualizer()
+
+    async def ingest_plant_signal(self, plant_name: str, signal: np.ndarray):
+        """استيعاب إشارة نبات معين → Bit"""
+        profile = self.plant_db.get_plant(plant_name)
+        if not profile:
+            print(f"⚠️ Plant {plant_name} not found in database")
+            return None
+
+        bit = self.encoder.encode_plant_signal(plant_name, signal)
+        bit.plant_source = plant_name
+        self.bits.append(bit)
+        return bit
+
+    def visualize_current_state(self):
+        """عرض الـ Visualization الكامل"""
+        if self.bits:
+            self.visualizer.plot_genetic_bits(self.bits, self.plant_db)
+            self.visualizer.plot_plant_resonance_radar(self.plant_db)
+
+    def get_nature_consciousness(self) -> float:
+        if not self.bits:
+            return 0.0
+        return np.mean([b.consciousness_contribution for b in self.bits])
