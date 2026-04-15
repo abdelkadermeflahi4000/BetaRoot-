@@ -1,0 +1,4 @@
+def modify_structure(self, system):
+    # مثال
+    system.memory.relevance_threshold *= 0.9
+    system.frequency.sensitivity += 0.01
