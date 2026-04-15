@@ -126,3 +126,71 @@ class SandboxEngine:
             "last_approved": list(self.approved_changes.values())[-1].__dict__ if self.approved_changes else None,
             "high_risk_rejected": len([p for p in self.rejected_changes if p.risk_score > 0.7])
         }
+orchestrator/sandbox_engine.py
+from dataclasses import dataclass
+from typing import Dict, Any
+import asyncio
+from ..core.governance import GovernanceEngine, Action
+from ..core.frequency.bit import GeneticFrequencyBit
+
+@dataclass
+class SandboxProposal:
+    id: str
+    module: str
+    parameter: str
+    new_value: Any
+    reason: str
+    risk_score: float
+    proposed_by: str
+    bit_influence: float = 0.0   # تأثير الـ Bit الوراثي
+    plant_source: str = ""
+
+class SandboxEngine:
+    def __init__(self, governance: GovernanceEngine):
+        self.governance = governance
+        self.approved = {}
+        self.rejected = []
+
+    def calculate_risk(self, proposal: SandboxProposal) -> float:
+        risk = 0.0
+        if proposal.module in ["bit_layer", "frequency"]:
+            risk += 0.35
+        if proposal.bit_influence > 0.8:
+            risk -= 0.25   # Bits من نباتات قوية = أقل خطراً
+        if "consciousness" in proposal.parameter.lower():
+            risk += 0.2
+        return min(1.0, max(0.0, risk))
+
+    async def propose_genetic_change(self, bit: GeneticFrequencyBit, new_value: Any, reason: str) -> Dict:
+        """اقتراح تعديل مرتبط بـ Genetic Bit"""
+        proposal = SandboxProposal(
+            id=bit.id,
+            module="bit_layer",
+            parameter="consciousness_bridge",
+            new_value=new_value,
+            reason=reason,
+            risk_score=0.0,
+            proposed_by="plant_frequency",
+            bit_influence=bit.consciousness_contribution,
+            plant_source=bit.plant_source
+        )
+
+        proposal.risk_score = self.calculate_risk(proposal)
+
+        if not self.governance.check(Action.EVOLVE if proposal.risk_score < 0.65 else Action.MAINTAIN_STABILITY):
+            self.rejected.append(proposal)
+            return {"status": "rejected", "reason": "Governance blocked", "risk": proposal.risk_score}
+
+        # اختبار Sandbox
+        test_passed = proposal.risk_score < 0.65 and proposal.bit_influence > 0.6
+        if test_passed:
+            self.approved[proposal.id] = proposal
+            return {
+                "status": "approved",
+                "proposal": proposal.__dict__,
+                "plant": proposal.plant_source,
+                "new_consciousness": new_value
+            }
+        else:
+            self.rejected.append(proposal)
+            return {"status": "rejected", "reason": "Sandbox test failed", "risk": proposal.risk_score}
