@@ -1,0 +1,35 @@
+class LivingBetaRoot:
+    def __init__(self):
+        self.frequency = FrequencyEngine()
+        self.memory = AdvancedMemoryManager()
+        self.causality = CausalEngine()
+        self.evaluator = EvaluationEngine()
+        self.evolution = SelfEvolutionCore()
+    
+    def run_cycle(self, input_data):
+        # 1. تحويل إلى تردد
+        freq = self.frequency.encode(input_data)
+        
+        # 2. البحث في الذاكرة عبر الرنين
+        memory_hits = self.memory.semantic_memory.query_semantic_similarity(freq)
+        
+        # 3. تحليل سببي
+        causal_graph = self.causality.analyze(freq, memory_hits)
+        
+        # 4. توليد قرار
+        action = self.generate_action(causal_graph)
+        
+        # 5. تنفيذ
+        result = self.execute(action)
+        
+        # 6. تخزين التجربة
+        self.memory.store_experience(input_data, result, causal_graph)
+        
+        # 7. تقييم الأداء
+        score = self.evaluator.evaluate(result)
+        
+        # 8. التطور الذاتي
+        self.evolution.observe(score)
+        self.evolution.mutate(self)
+        
+        return result
