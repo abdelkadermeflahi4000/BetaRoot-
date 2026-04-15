@@ -168,3 +168,45 @@ class MultiAgentOrchestrator:
             "emergence_potential": bit_state["emergence_potential"],
             "recommendation": "resonate" if bit_state["emergence_potential"] > 0.65 else "explore"
         }
+
+from ..bit_layer import BitLayer
+from ..orchestrator.sandbox_engine import SandboxEngine
+from ..frequency.visualization import PlantFrequencyVisualizer
+
+class MultiAgentOrchestrator:
+    def __init__(self):
+        self.bit_layer = BitLayer()
+        self.sandbox = SandboxEngine(GovernanceEngine())
+        self.visualizer = PlantFrequencyVisualizer()
+
+    async def orchestrate(self, user_query: str):
+        # 1. استيعاب إشارات نباتية → Bits
+        plants = ["oak", "banyan", "sequoia", "pine"]
+        for plant in plants:
+            # محاكاة إشارة نباتية
+            signal = np.sin(2 * np.pi * 7.8 * np.linspace(0, 5, 800)) + np.random.normal(0, 0.07, 800)
+            await self.bit_layer.ingest_plant_signal(plant, signal)
+
+        # 2. حساب حالة الـ Bits
+        bit_state = self.bit_layer.compute_collective_bit_state()
+
+        # 3. Sandbox + Self-Evolution
+        if bit_state["emergence_potential"] > 0.68:
+            top_bit = max(self.bit_layer.bits, key=lambda b: b.consciousness_contribution)
+            result = await self.sandbox.propose_genetic_change(
+                bit=top_bit,
+                new_value=min(0.98, top_bit.consciousness_contribution + 0.05),
+                reason=f"High emergence from {top_bit.plant_source} plant"
+            )
+            print(f"Sandbox Result: {result['status']} | Plant: {result.get('plant', '')}")
+
+        # 4. Visualization
+        self.visualizer.plot_genetic_bits(self.bit_layer.bits, self.bit_layer.plant_db)
+        self.visualizer.plot_plant_resonance_radar(self.bit_layer.plant_db)
+
+        return {
+            "query": user_query,
+            "bit_state": bit_state,
+            "nature_consciousness": self.bit_layer.get_nature_consciousness(),
+            "recommendation": "resonate_with_nature" if bit_state["emergence_potential"] > 0.7 else "explore"
+        }
