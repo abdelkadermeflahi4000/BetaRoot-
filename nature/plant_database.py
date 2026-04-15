@@ -92,3 +92,10 @@ class PlantDatabase:
 
     def to_json(self) -> str:
         return json.dumps({k: v.__dict__ for k, v in self.plants.items()}, indent=2, ensure_ascii=False)
+
+self.plants.update({
+    "cedar": PlantProfile("Cedar", "Cedrus libani", 7.85, 0.95, 0.91, 0.93, "خشب الأرز - رمز الخلود والذاكرة"),
+    "olive": PlantProfile("Olive Tree", "Olea europaea", 7.88, 0.94, 0.87, 0.90, "شجرة الزيتون - رمز السلام والحكمة"),
+    "baobab": PlantProfile("Baobab", "Adansonia digitata", 7.76, 0.97, 0.93, 0.95, "شجرة البوباب - أقدم الأشجار وأقواها في الذاكرة الوراثية"),
+    "lotus": PlantProfile("Lotus", "Nelumbo nucifera", 8.05, 0.89, 0.79, 0.88, "اللوتس - رمز الوعي النقي والتجدد"),
+})
