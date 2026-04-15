@@ -1,0 +1,12 @@
+import time
+
+system = LivingBetaRoot()
+
+while True:
+    user_input = input(">> ")
+    
+    result = system.run_cycle(user_input)
+    
+    print("AI:", result)
+    
+    time.sleep(0.5)
