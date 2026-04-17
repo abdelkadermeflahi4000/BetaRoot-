@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  nats:
+    image: nats:2.10
+    ports:
+      - "4222:4222"
+      - "8222:8222"  # Monitoring
+    command: ["-js", "-m", "8222"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8222/healthz"]
+      interval: 10s
+      retries: 3
+
+  core-router:
+    build: .
+    environment:
+      - NATS_URL=nats://nats:4222
+      - SERVICE_NAME=core-router
+    depends_on:
+      nats:
+        condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  engine-spectrum:
+    build: .
+    environment:
+      - NATS_URL=nats://nats:4222
+      - ENGINE_TYPE=spectrum
+      - SERVICE_NAME=engine-spectrum
+
+  engine-duka:
+    build: .
+    environment:
+      - NATS_URL=nats://nats:4222
+      - ENGINE_TYPE=duka
+      - SERVICE_NAME=engine-duka
+
+  # يمكن إضافة محركات خارجية هنا بنفس النمط
